@@ -1,0 +1,26 @@
+# Pipeline to build and run unit tests on our project each time commits are pushed to main
+name: Build-Test pipeline with Gradle
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      # Using Temurin Alpine docker container to match local development JDK
+      image: eclipse-temurin:21-jdk-alpine
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # Granting execution permission to the gradle wrapper is required to build the project
+      - name: Grant Execute Permission to Gradle Wrapper
+        run: chmod +x gradlew
+
+      - name: Build project and run unit tests
+        run: ./gradlew build
