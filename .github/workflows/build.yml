@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       # Using Temurin Alpine docker container to match local development JDK
-      image: eclipse-temurin:21-jdk-alpine
+      image: eclipse-temurin:17-jdk-alpine
 
     steps:
       - name: Checkout Repository
