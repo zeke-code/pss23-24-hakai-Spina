@@ -59,7 +59,8 @@ javafx {
         "javafx.base",
         "javafx.fxml",
         "javafx.swing",
-        "javafx.graphics"
+        "javafx.graphics",
+        "javafx.media"
     )
 }
 
