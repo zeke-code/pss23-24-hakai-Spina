@@ -34,7 +34,7 @@ dependencies {
 // Apply a specific Java toolchain to ease working on different environments.
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(21)
+        languageVersion = JavaLanguageVersion.of(17)
     }
 }
 
@@ -53,7 +53,7 @@ spotless {
 }
 
 javafx {
-    version = "24.0.2"
+    version = "21.0.8"
     modules = listOf(
         "javafx.controls",
         "javafx.base",
