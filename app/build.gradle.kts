@@ -47,7 +47,6 @@ spotless {
     java {
         importOrder()  // Using spotless default import order configuration
         removeUnusedImports()
-        removeWildcardImports()
         googleJavaFormat()
     }
 }

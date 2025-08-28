@@ -4,6 +4,7 @@ import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.engine.enums.GameState;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.entities.EntityFactory;
+import com.zekecode.hakai.systems.CollisionSystem;
 import com.zekecode.hakai.systems.MovementSystem;
 import com.zekecode.hakai.systems.PhysicsSystem;
 import com.zekecode.hakai.systems.RenderSystem;
@@ -33,12 +34,18 @@ public class GameManager {
     world.addSystem(new RenderSystem(gc));
     world.addSystem(new MovementSystem(inputManager));
     world.addSystem(new PhysicsSystem(screenWidth, screenHeight));
+    world.addSystem(new CollisionSystem());
   }
 
   private void setupEntities(double screenWidth, double screenHeight) {
     double playerX = screenWidth / 2.0 - 50;
     double playerY = screenHeight - 50;
     entityFactory.createPlayer(playerX, playerY);
+
+    // Create the ball above the paddle
+    double ballX = screenWidth / 2.0 - 5; // Center the ball
+    double ballY = screenHeight / 2.0;
+    entityFactory.createBall(200, -200); // Start it moving up and to the right
   }
 
   // The main update method is now only concerned with the game logic

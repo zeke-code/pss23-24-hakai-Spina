@@ -1,9 +1,6 @@
 package com.zekecode.hakai.entities;
 
-import com.zekecode.hakai.components.InputComponent;
-import com.zekecode.hakai.components.PositionComponent;
-import com.zekecode.hakai.components.RenderComponent;
-import com.zekecode.hakai.components.VelocityComponent;
+import com.zekecode.hakai.components.*;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.World;
 import javafx.scene.paint.Color;
@@ -43,5 +40,24 @@ public class EntityFactory {
     player.addComponent(new InputComponent()); // This marks the entity as player-controlled
 
     return player;
+  }
+
+  /**
+   * Creates a ball entity. The ball is configured with components for rendering and physics.
+   *
+   * @param x The initial horizontal position.
+   * @param y The initial vertical position.
+   * @return The fully configured ball Entity.
+   */
+  public Entity createBall(double x, double y) {
+    Entity ball = world.createEntity();
+
+    // Add all the necessary components for the ball
+    ball.addComponent(new PositionComponent(x, y));
+    ball.addComponent(new VelocityComponent(200, 200)); // Initial velocity
+    ball.addComponent(new RenderComponent(15, 15, Color.ORANGE));
+    ball.addComponent(new BallComponent());
+
+    return ball;
   }
 }
