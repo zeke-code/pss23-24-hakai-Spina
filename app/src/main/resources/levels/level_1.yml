@@ -1,0 +1,38 @@
+levelName: "Default Level"
+levelNumber: 1
+
+layout:
+  # The default size for all bricks in this level.
+  defaultBrickWidth: 75
+  defaultBrickHeight: 20
+
+  # Grid properties
+  padding: 5
+  offsetTop: 60
+
+  # A classic, multi-layered wall.
+  pattern:
+    - "RRRRRRRRRR"
+    - "RRRRRRRRRR"
+    - "OOOOOOOOOO"
+    - "OOOOOOOOOO"
+    - "GGGGGGGGGG"
+    - "GGGGGGGGGG"
+    - "YYYYYYYYYY"
+    - "YYYYYYYYYY"
+
+# Define the properties for each brick type used in the pattern.
+# Notice none of these need to override the width or height.
+brickTypes:
+  'R':
+    color: "#C0392B" # Pomegranate Red
+    hp: 1
+  'O':
+    color: "#E67E22" # Carrot Orange
+    hp: 1
+  'G':
+    color: "#27AE60" # Nephritis Green
+    hp: 1
+  'Y':
+    color: "#F1C40F" # Sunflower Yellow
+    hp: 1

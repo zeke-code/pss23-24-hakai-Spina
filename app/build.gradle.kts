@@ -29,6 +29,7 @@ dependencies {
 
     // Guava EventBus might be needed in the future.
     implementation(libs.guava)
+    implementation("org.yaml:snakeyaml:2.4")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.
