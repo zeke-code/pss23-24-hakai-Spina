@@ -60,4 +60,27 @@ public class EntityFactory {
 
     return ball;
   }
+
+  /**
+   * Creates a brick entity. Bricks are static and only need position, rendering, and health
+   * components.
+   *
+   * @param x The initial horizontal position.
+   * @param y The initial vertical position.
+   * @param width The width of the brick.
+   * @param height The height of the brick.
+   * @param color The color of the brick.
+   * @param hp The hit points (durability) of the brick.
+   * @return The fully configured brick Entity.
+   */
+  public Entity createBrick(double x, double y, double width, double height, Color color, int hp) {
+    Entity brick = world.createEntity();
+
+    brick.addComponent(new PositionComponent(x, y));
+    brick.addComponent(new RenderComponent(width, height, color));
+    brick.addComponent(new BrickComponent(hp));
+    // Note: Bricks don't have a VelocityComponent, so the PhysicsSystem ignores them.
+
+    return brick;
+  }
 }

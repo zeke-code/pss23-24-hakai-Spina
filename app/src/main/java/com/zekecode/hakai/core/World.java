@@ -9,6 +9,7 @@ import java.util.List;
  */
 public class World {
   private final List<Entity> entities = new ArrayList<>();
+  private final List<Entity> entitiesToRemove = new ArrayList<>();
   private final List<GameSystem> systems = new ArrayList<>();
   private int nextEntityId = 0;
 
@@ -16,6 +17,17 @@ public class World {
     Entity entity = new Entity(nextEntityId++);
     entities.add(entity);
     return entity;
+  }
+
+  public void destroyEntity(Entity entity) {
+    if (!entitiesToRemove.contains(entity)) {
+      entitiesToRemove.add(entity);
+    }
+  }
+
+  private void cleanupEntities() {
+    entities.removeAll(entitiesToRemove);
+    entitiesToRemove.clear();
   }
 
   public void addSystem(GameSystem system) {
@@ -26,5 +38,6 @@ public class World {
     for (GameSystem system : systems) {
       system.update(entities, deltaTime);
     }
+    cleanupEntities();
   }
 }

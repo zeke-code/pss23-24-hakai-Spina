@@ -1,88 +1,132 @@
 package com.zekecode.hakai.systems;
 
 import com.zekecode.hakai.components.BallComponent;
+import com.zekecode.hakai.components.BrickComponent;
 import com.zekecode.hakai.components.InputComponent;
 import com.zekecode.hakai.components.PositionComponent;
 import com.zekecode.hakai.components.RenderComponent;
 import com.zekecode.hakai.components.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
-import java.util.List;
+import com.zekecode.hakai.core.World; // <-- IMPORT WORLD
 import java.util.Optional;
+import java.util.List;
 
 public class CollisionSystem extends GameSystem {
 
-  @Override
-  public void update(List<Entity> entities, double deltaTime) {
-    // Find the ball first
-    Optional<Entity> ballOpt = findBall(entities);
-    if (!ballOpt.isPresent()) {
-      return; // No ball in the game, nothing to do
+    private final World world;
+
+    public CollisionSystem(World world) {
+        this.world = world;
     }
-    Entity ball = ballOpt.get();
 
-    // Check the ball against all other collidable entities
-    for (Entity other : entities) {
-      if (other.getId() == ball.getId()) {
-        continue; // Don't check against self
-      }
+    @Override
+    public void update(List<Entity> entities, double deltaTime) {
+        Optional<Entity> ballOpt = findBall(entities);
+        if (!ballOpt.isPresent()) {
+            return; // No ball, no collisions to check.
+        }
+        Entity ball = ballOpt.get();
 
-      // We only care about ball-paddle collision for now
-      if (other.hasComponent(InputComponent.class)) {
-        handleBallPaddleCollision(ball, other);
-      }
+        // Check the ball against every other entity
+        for (Entity other : entities) {
+            if (other.getId() == ball.getId()) {
+                continue; // Don't collide with yourself
+            }
 
-      // TODO: if (other.hasComponent(BrickComponent.class)) { ... }
+            // Check for different collision types
+            if (other.hasComponent(InputComponent.class)) {
+                handleBallPaddleCollision(ball, other);
+            } else if (other.hasComponent(BrickComponent.class)) {
+                handleBallBrickCollision(ball, other);
+            }
+        }
     }
-  }
 
-  private void handleBallPaddleCollision(Entity ball, Entity paddle) {
-    // AABB Collision Check requires Position and Render components on both entities
-    Optional<PositionComponent> ballPosOpt = ball.getComponent(PositionComponent.class);
-    Optional<RenderComponent> ballRenderOpt = ball.getComponent(RenderComponent.class);
-    Optional<PositionComponent> paddlePosOpt = paddle.getComponent(PositionComponent.class);
-    Optional<RenderComponent> paddleRenderOpt = paddle.getComponent(RenderComponent.class);
+    private void handleBallBrickCollision(Entity ball, Entity brick) {
+        // We can use .get() here because we know our entities will have these components
+        PositionComponent ballPos = ball.getComponent(PositionComponent.class).get();
+        RenderComponent ballRender = ball.getComponent(RenderComponent.class).get();
+        PositionComponent brickPos = brick.getComponent(PositionComponent.class).get();
+        RenderComponent brickRender = brick.getComponent(RenderComponent.class).get();
 
-    if (ballPosOpt.isPresent()
-        && ballRenderOpt.isPresent()
-        && paddlePosOpt.isPresent()
-        && paddleRenderOpt.isPresent()) {
-      PositionComponent ballPos = ballPosOpt.get();
-      RenderComponent ballRender = ballRenderOpt.get();
-      PositionComponent paddlePos = paddlePosOpt.get();
-      RenderComponent paddleRender = paddleRenderOpt.get();
+        if (isColliding(ballPos, ballRender, brickPos, brickRender)) {
+            // --- COLLISION DETECTED ---
 
-      // Check for overlap
-      if (ballPos.x < paddlePos.x + paddleRender.width
-          && ballPos.x + ballRender.width > paddlePos.x
-          && ballPos.y < paddlePos.y + paddleRender.height
-          && ballPos.y + ballRender.height > paddlePos.y) {
+            // 1. Damage and potentially destroy the brick
+            BrickComponent brickComp = brick.getComponent(BrickComponent.class).get();
+            brickComp.hp--;
+            if (brickComp.hp <= 0) {
+                world.destroyEntity(brick); // Tell the world to remove this entity
+            }
 
-        ball.getComponent(VelocityComponent.class)
-            .ifPresent(
-                ballVelocity -> {
-                  // Only trigger the bounce if the ball is moving downwards towards the paddle
-                  if (ballVelocity.y > 0) {
-                    ballVelocity.y *= -1; // Reverse vertical velocity
-
-                    double paddleCenter = paddlePos.x + paddleRender.width / 2.0;
-                    double ballCenter = ballPos.x + ballRender.width / 2.0;
-                    double distanceFromCenter = ballCenter - paddleCenter;
-
-                    // Adjust horizontal velocity based on where the ball hit the paddle
-                    ballVelocity.x += distanceFromCenter * 2;
-                  }
-                });
-      }
+            // 2. Make the ball bounce realistically
+            resolveBounce(ball, brickPos, brickRender);
+        }
     }
-  }
 
-  private Optional<Entity> findBall(List<Entity> entities) {
-    for (Entity entity : entities) {
-      if (entity.hasComponent(BallComponent.class)) {
-        return Optional.of(entity);
-      }
+    private void resolveBounce(Entity ball, PositionComponent targetPos, RenderComponent targetRender) {
+        VelocityComponent ballVelocity = ball.getComponent(VelocityComponent.class).get();
+        PositionComponent ballPos = ball.getComponent(PositionComponent.class).get();
+        RenderComponent ballRender = ball.getComponent(RenderComponent.class).get();
+
+        // Calculate the overlap between ball and target
+        double overlapX = (ballPos.x + ballRender.width / 2) - (targetPos.x + targetRender.width / 2);
+        double overlapY = (ballPos.y + ballRender.height / 2) - (targetPos.y + targetRender.height / 2);
+
+        // Calculate the minimum non-overlapping distances
+        double halfWidths = (ballRender.width + targetRender.width) / 2;
+        double halfHeights = (ballRender.height + targetRender.height) / 2;
+
+        // Determine which axis has the smallest penetration
+        // This tells us if it was a vertical or horizontal collision
+        double diffX = halfWidths - Math.abs(overlapX);
+        double diffY = halfHeights - Math.abs(overlapY);
+
+        if (diffX < diffY) { // Horizontal collision
+            ballVelocity.x *= -1;
+            // Reposition ball to prevent sticking
+            ballPos.x += (overlapX > 0 ? diffX : -diffX);
+        } else { // Vertical collision
+            ballVelocity.y *= -1;
+            // Reposition ball to prevent sticking
+            ballPos.y += (overlapY > 0 ? diffY : -diffY);
+        }
     }
-    return Optional.empty();
-  }
+
+    private boolean isColliding(PositionComponent posA, RenderComponent renderA, PositionComponent posB, RenderComponent renderB) {
+        return posA.x < posB.x + renderB.width &&
+                posA.x + renderA.width > posB.x &&
+                posA.y < posB.y + renderB.height &&
+                posA.y + renderA.height > posB.y;
+    }
+
+    private void handleBallPaddleCollision(Entity ball, Entity paddle) {
+        PositionComponent ballPos = ball.getComponent(PositionComponent.class).get();
+        RenderComponent ballRender = ball.getComponent(RenderComponent.class).get();
+        PositionComponent paddlePos = paddle.getComponent(PositionComponent.class).get();
+        RenderComponent paddleRender = paddle.getComponent(RenderComponent.class).get();
+
+        if (isColliding(ballPos, ballRender, paddlePos, paddleRender)) {
+            VelocityComponent ballVelocity = ball.getComponent(VelocityComponent.class).get();
+            if (ballVelocity.y > 0) { // Only bounce if moving down
+                resolveBounce(ball, paddlePos, paddleRender);
+
+                // Add paddle "spin"
+                double paddleCenter = paddlePos.x + paddleRender.width / 2.0;
+                double ballCenter = ballPos.x + ballRender.width / 2.0;
+                double distanceFromCenter = ballCenter - paddleCenter;
+                ballVelocity.x += distanceFromCenter * 2;
+            }
+        }
+    }
+
+    private Optional<Entity> findBall(List<Entity> entities) {
+        for (Entity entity : entities) {
+            if (entity.hasComponent(BallComponent.class)) {
+                return Optional.of(entity);
+            }
+        }
+        return Optional.empty();
+    }
 }

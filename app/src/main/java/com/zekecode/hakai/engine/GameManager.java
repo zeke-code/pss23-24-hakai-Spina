@@ -34,7 +34,7 @@ public class GameManager {
     world.addSystem(new RenderSystem(gc));
     world.addSystem(new MovementSystem(inputManager));
     world.addSystem(new PhysicsSystem(screenWidth, screenHeight));
-    world.addSystem(new CollisionSystem());
+    world.addSystem(new CollisionSystem(world));
   }
 
   private void setupEntities(double screenWidth, double screenHeight) {
