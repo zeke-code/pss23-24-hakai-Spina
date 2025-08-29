@@ -1,5 +1,6 @@
 package com.zekecode.hakai.systems;
 
+import com.google.common.eventbus.EventBus;
 import com.zekecode.hakai.components.BallComponent;
 import com.zekecode.hakai.components.BrickComponent;
 import com.zekecode.hakai.components.InputComponent;
@@ -9,15 +10,18 @@ import com.zekecode.hakai.components.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.core.World;
+import com.zekecode.hakai.engine.events.BrickHitEvent;
 import java.util.List;
 import java.util.Optional;
 
 public class CollisionSystem extends GameSystem {
 
   private final World world;
+  private final EventBus eventBus;
 
-  public CollisionSystem(World world) {
+  public CollisionSystem(World world, EventBus eventBus) {
     this.world = world;
+    this.eventBus = eventBus;
   }
 
   @Override
@@ -51,17 +55,9 @@ public class CollisionSystem extends GameSystem {
     RenderComponent brickRender = brick.getComponent(RenderComponent.class).get();
 
     if (isColliding(ballPos, ballRender, brickPos, brickRender)) {
-      // --- COLLISION DETECTED ---
-
-      // 1. Damage and potentially destroy the brick
-      BrickComponent brickComp = brick.getComponent(BrickComponent.class).get();
-      brickComp.hp--;
-      if (brickComp.hp <= 0) {
-        world.destroyEntity(brick); // Tell the world to remove this entity
-      }
-
-      // 2. Make the ball bounce realistically
       resolveBounce(ball, brickPos, brickRender);
+      // Notify that the brick was hit
+      eventBus.post(new BrickHitEvent(brick));
     }
   }
 

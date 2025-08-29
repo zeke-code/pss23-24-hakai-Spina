@@ -1,5 +1,6 @@
 package com.zekecode.hakai.systems;
 
+import com.google.common.eventbus.EventBus;
 import com.zekecode.hakai.components.BallComponent;
 import com.zekecode.hakai.components.InputComponent;
 import com.zekecode.hakai.components.PositionComponent;
@@ -7,6 +8,7 @@ import com.zekecode.hakai.components.RenderComponent;
 import com.zekecode.hakai.components.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
+import com.zekecode.hakai.engine.events.BallLostEvent;
 import java.util.List;
 
 /**
@@ -20,10 +22,12 @@ import java.util.List;
 public class PhysicsSystem extends GameSystem {
   private final double screenWidth;
   private final double screenHeight;
+  private final EventBus eventBus;
 
-  public PhysicsSystem(double screenWidth, double screenHeight) {
+  public PhysicsSystem(double screenWidth, double screenHeight, EventBus eventBus) {
     this.screenWidth = screenWidth;
     this.screenHeight = screenHeight;
+    this.eventBus = eventBus;
   }
 
   @Override
@@ -99,11 +103,8 @@ public class PhysicsSystem extends GameSystem {
       velocity.y *= -1; // Reverse vertical velocity
     }
 
-    // TODO: In a later step, we need to handle the ball going off the bottom of the screen.
     if (position.y + render.height >= screenHeight) {
-      // For now, let's just make it bounce off the bottom too for testing.
-      // We will change this logic later.
-      velocity.y *= -1;
+      eventBus.post(new BallLostEvent());
     }
   }
 }
