@@ -49,15 +49,18 @@ public class Game {
     GameManager gameManager = new GameManager(world);
 
     // --- 3. CREATE SYSTEMS AND REGISTER LISTENERS ---
-    BrickSystem brickSystem = new BrickSystem(world);
+    BrickSystem brickSystem = new BrickSystem(world, eventBus);
+    ScoreSystem scoreSystem = new ScoreSystem();
 
     eventBus.register(brickSystem);
+    eventBus.register(scoreSystem);
 
     world.addSystem(new RenderSystem(gc));
     world.addSystem(new MovementSystem(inputManager));
     world.addSystem(new CollisionSystem(world, eventBus));
     world.addSystem(new PhysicsSystem(800, 600, eventBus)); // Use constants or pass them in
     world.addSystem(brickSystem);
+    world.addSystem(scoreSystem);
 
     // --- 4. CREATE UI & INPUT HANDLERS ---
     UIManager uiManager = new UIManager(800, 600);
