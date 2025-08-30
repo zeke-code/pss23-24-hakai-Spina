@@ -51,9 +51,12 @@ public class Game {
     // --- 3. CREATE SYSTEMS AND REGISTER LISTENERS ---
     BrickSystem brickSystem = new BrickSystem(world, eventBus);
     ScoreSystem scoreSystem = new ScoreSystem();
+    PlayerStateSystem playerStateSystem = new PlayerStateSystem(1, eventBus);
 
+    eventBus.register(gameManager);
     eventBus.register(brickSystem);
     eventBus.register(scoreSystem);
+    eventBus.register(playerStateSystem);
 
     world.addSystem(new RenderSystem(gc));
     world.addSystem(new MovementSystem(inputManager));
@@ -62,6 +65,7 @@ public class Game {
     world.addSystem(new BallSystem(inputManager));
     world.addSystem(brickSystem);
     world.addSystem(scoreSystem);
+    world.addSystem(playerStateSystem);
 
     // --- 4. CREATE UI & INPUT HANDLERS ---
     UIManager uiManager = new UIManager(800, 600);

@@ -1,7 +1,9 @@
 package com.zekecode.hakai.engine;
 
+import com.google.common.eventbus.Subscribe;
 import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.engine.enums.GameState;
+import com.zekecode.hakai.engine.events.GameOverEvent;
 
 /** Manages the high-level game state (e.g., Running, Paused, GameOver). */
 public class GameManager {
@@ -12,6 +14,16 @@ public class GameManager {
   public GameManager(World world) {
     this.world = world;
     this.currentState = GameState.RUNNING; // Default starting state
+  }
+
+  /**
+   * Event listener for the game over event. Sets the game state to GAME_OVER.
+   *
+   * @param event - GameOverEvent
+   */
+  @Subscribe
+  public void onGameOver(GameOverEvent event) {
+    setGameState(GameState.GAME_OVER);
   }
 
   public void update(double deltaTime) {

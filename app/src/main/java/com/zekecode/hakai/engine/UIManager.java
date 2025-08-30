@@ -30,11 +30,11 @@ public class UIManager {
         drawPausedScreen(gc);
         break;
       case RUNNING:
-        // In the future, we can draw the score, lives, etc. here
+        // TODO: we need to start drawing some stuff bro
         // drawGameHUD(gc);
         break;
       case GAME_OVER:
-        // drawGameOverScreen(gc);
+        drawGameOverScreen(gc);
         break;
       default:
         break;
@@ -51,6 +51,15 @@ public class UIManager {
     gc.fillText("PAUSED", screenWidth / 2, screenHeight / 2);
   }
 
-  // Example for later:
-  // private void drawGameHUD(GraphicsContext gc, int score, int lives) { ... }
+  private void drawGameOverScreen(GraphicsContext gc) {
+    // Draw a semi-transparent overlay to darken the game screen
+    gc.setFill(Color.web("black", 0.75));
+    gc.fillRect(0, 0, screenWidth, screenHeight);
+
+    // Draw the "GAME OVER" text
+    gc.setFill(Color.CRIMSON);
+    gc.setFont(new Font("Arial", 80));
+    gc.setTextAlign(TextAlignment.CENTER);
+    gc.fillText("GAME OVER", screenWidth / 2, screenHeight / 2);
+  }
 }
