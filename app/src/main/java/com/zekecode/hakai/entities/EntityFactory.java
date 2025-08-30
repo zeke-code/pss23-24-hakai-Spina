@@ -57,6 +57,7 @@ public class EntityFactory {
     ball.addComponent(new VelocityComponent(200, 200)); // Initial velocity
     ball.addComponent(new RenderComponent(15, 15, Color.ORANGE));
     ball.addComponent(new BallComponent());
+    ball.addComponent(new BallStuckToPaddleComponent());
 
     return ball;
   }

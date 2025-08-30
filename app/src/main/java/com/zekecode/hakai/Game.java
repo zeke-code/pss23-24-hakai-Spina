@@ -58,7 +58,8 @@ public class Game {
     world.addSystem(new RenderSystem(gc));
     world.addSystem(new MovementSystem(inputManager));
     world.addSystem(new CollisionSystem(world, eventBus));
-    world.addSystem(new PhysicsSystem(800, 600, eventBus)); // Use constants or pass them in
+    world.addSystem(new PhysicsSystem(800, 600, eventBus));
+    world.addSystem(new BallSystem(inputManager));
     world.addSystem(brickSystem);
     world.addSystem(scoreSystem);
 

@@ -65,4 +65,14 @@ public class Entity {
   public boolean hasComponent(Class<? extends Component> componentClass) {
     return components.containsKey(componentClass);
   }
+
+  /**
+   * Removes a component of the specified type from this entity.
+   *
+   * @param componentClass The class of the component to remove.
+   * @return true if the component was present and removed, false otherwise.
+   */
+  public boolean removeComponent(Class<? extends Component> componentClass) {
+    return components.remove(componentClass) != null;
+  }
 }
