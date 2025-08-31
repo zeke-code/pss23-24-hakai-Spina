@@ -6,6 +6,7 @@ import java.util.Map;
 public class LevelData {
   public String levelName;
   public int levelNumber;
+  public String background;
   public LayoutData layout;
   public Map<Character, BrickTypeData> brickTypes;
 }

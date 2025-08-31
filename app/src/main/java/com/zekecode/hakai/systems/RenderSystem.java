@@ -28,7 +28,6 @@ public class RenderSystem extends GameSystem {
    */
   @Override
   public void update(List<Entity> entities, double deltaTime) {
-    gc.clearRect(0, 0, gc.getCanvas().getWidth(), gc.getCanvas().getHeight());
 
     for (Entity entity : entities) {
       // The system only cares about entities that have both Position and Render components

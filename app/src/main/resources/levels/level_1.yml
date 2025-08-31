@@ -1,5 +1,6 @@
 levelName: "Default Level"
 levelNumber: 1
+background: "backgrounds/space_loop.gif"
 
 layout:
   # The default size for all bricks in this level.

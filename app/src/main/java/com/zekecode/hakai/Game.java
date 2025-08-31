@@ -9,6 +9,7 @@ import com.zekecode.hakai.engine.UIManager;
 import com.zekecode.hakai.engine.data.BrickTypeData;
 import com.zekecode.hakai.engine.data.LayoutData;
 import com.zekecode.hakai.engine.data.LevelData;
+import com.zekecode.hakai.engine.fx.BackgroundManager;
 import com.zekecode.hakai.engine.input.InputHandler;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.entities.EntityFactory;
@@ -28,6 +29,7 @@ public class Game {
   private final Scene scene;
 
   private GameLoop gameLoop;
+  private BackgroundManager backgroundManager;
 
   public Game(GraphicsContext gc, Scene scene) {
     this.gc = gc;
@@ -72,13 +74,14 @@ public class Game {
     InputHandler inputHandler = new InputHandler(inputManager, gameManager);
     inputHandler.attach(scene);
 
-    // --- 5. LOAD LEVEL AND SPAWN ENTITIES ---
-    loadLevel("level_1.yml", entityFactory);
+    // --- 5. LOAD LEVEL, INITIALIZE BACKGROUND, AND SPAWN ENTITIES ---
+    LevelData level = loadLevel("level_1.yml", entityFactory);
+    this.backgroundManager = new BackgroundManager(level.background, 800, 600); // Initialize here
     entityFactory.createPlayer(800 / 2.0 - 50, 600 - 50);
     entityFactory.createBall(800 / 2.0 - 7.5, 600 / 2.0);
 
     // --- 6. CREATE THE GAME LOOP ---
-    this.gameLoop = new GameLoop(gameManager, uiManager, gc);
+    this.gameLoop = new GameLoop(gameManager, uiManager, backgroundManager, gc);
   }
 
   /** Starts the main game loop. */
@@ -96,7 +99,7 @@ public class Game {
     }
   }
 
-  private void loadLevel(String levelFile, EntityFactory entityFactory) {
+  private LevelData loadLevel(String levelFile, EntityFactory entityFactory) {
     LevelLoader levelLoader = new LevelLoader();
     LevelData level = levelLoader.loadLevel(levelFile);
     LayoutData layout = level.layout;
@@ -118,5 +121,6 @@ public class Game {
         entityFactory.createBrick(x, y, brickWidth, brickHeight, Color.web(type.color), type.hp);
       }
     }
+    return level;
   }
 }
