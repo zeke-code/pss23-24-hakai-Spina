@@ -14,6 +14,9 @@ import com.zekecode.hakai.engine.input.InputHandler;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.systems.*;
+import com.zekecode.hakai.systems.rendering.EntityRenderer;
+import com.zekecode.hakai.systems.rendering.RenderSystem;
+import com.zekecode.hakai.systems.rendering.RendererFactory;
 import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
@@ -46,6 +49,7 @@ public class Game {
     World world = new World();
     EntityFactory entityFactory = new EntityFactory(world);
     InputManager inputManager = new InputManager();
+    List<EntityRenderer> renderers = RendererFactory.createRenderers();
 
     // --- 2. CREATE GAME LOGIC & MANAGER ---
     GameManager gameManager = new GameManager(world);
@@ -60,7 +64,7 @@ public class Game {
     eventBus.register(scoreSystem);
     eventBus.register(playerStateSystem);
 
-    world.addSystem(new RenderSystem(gc));
+    world.addSystem(new RenderSystem(gc, renderers));
     world.addSystem(new MovementSystem(inputManager));
     world.addSystem(new CollisionSystem(world, eventBus));
     world.addSystem(new PhysicsSystem(800, 600, eventBus));

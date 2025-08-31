@@ -14,6 +14,7 @@ plugins {
     * The fat jar will be found in build/libs/projectname-all.jar
     */
     id("com.gradleup.shadow") version "9.1.0"
+
 }
 
 repositories {
@@ -30,6 +31,7 @@ dependencies {
     // Guava EventBus might be needed in the future.
     implementation(libs.guava)
     implementation("org.yaml:snakeyaml:2.4")
+    implementation("io.github.classgraph:classgraph:4.8.181")
 }
 
 // Apply a specific Java toolchain to ease working on different environments.

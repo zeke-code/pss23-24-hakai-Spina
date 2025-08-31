@@ -36,7 +36,7 @@ public class EntityFactory {
     // Add all the necessary components for the player paddle
     player.addComponent(new PositionComponent(x, y));
     player.addComponent(new VelocityComponent(0, 0)); // Starts stationary
-    player.addComponent(new RenderComponent(100, 20, Color.DEEPSKYBLUE));
+    player.addComponent(new RenderComponent(100, 20, Color.WHITE));
     player.addComponent(new InputComponent()); // This marks the entity as player-controlled
 
     return player;
@@ -55,7 +55,7 @@ public class EntityFactory {
     // Add all the necessary components for the ball
     ball.addComponent(new PositionComponent(x, y));
     ball.addComponent(new VelocityComponent(200, 200)); // Initial velocity
-    ball.addComponent(new RenderComponent(15, 15, Color.ORANGE));
+    ball.addComponent(new RenderComponent(15, 15, Color.WHITE));
     ball.addComponent(new BallComponent());
     ball.addComponent(new BallStuckToPaddleComponent());
 
