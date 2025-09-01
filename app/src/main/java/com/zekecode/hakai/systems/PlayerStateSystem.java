@@ -6,6 +6,7 @@ import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.engine.events.BallLostEvent;
 import com.zekecode.hakai.engine.events.GameOverEvent;
+import com.zekecode.hakai.engine.events.LivesChangedEvent;
 import java.util.List;
 
 /** Manages the player's state, such as lives, and reacts to game-altering events. */
@@ -24,6 +25,7 @@ public class PlayerStateSystem extends GameSystem {
   public void onBallLost(BallLostEvent event) {
     this.lives--;
     System.out.println("LIFE LOST! Lives remaining: " + this.lives);
+    eventBus.post(new LivesChangedEvent(lives));
 
     if (this.lives <= 0) {
       // When lives run out, post a new, more specific event.

@@ -49,6 +49,7 @@ public class Game {
     World world = new World();
     EntityFactory entityFactory = new EntityFactory(world);
     InputManager inputManager = new InputManager();
+    UIManager uiManager = new UIManager(800, 600);
     List<EntityRenderer> renderers = RendererFactory.createRenderers();
 
     // --- 2. CREATE GAME LOGIC & MANAGER ---
@@ -56,10 +57,11 @@ public class Game {
 
     // --- 3. CREATE SYSTEMS AND REGISTER LISTENERS ---
     BrickSystem brickSystem = new BrickSystem(world, eventBus);
-    ScoreSystem scoreSystem = new ScoreSystem();
-    PlayerStateSystem playerStateSystem = new PlayerStateSystem(1, eventBus);
+    ScoreSystem scoreSystem = new ScoreSystem(eventBus);
+    PlayerStateSystem playerStateSystem = new PlayerStateSystem(3, eventBus);
 
     eventBus.register(gameManager);
+    eventBus.register(uiManager);
     eventBus.register(brickSystem);
     eventBus.register(scoreSystem);
     eventBus.register(playerStateSystem);
@@ -73,8 +75,7 @@ public class Game {
     world.addSystem(scoreSystem);
     world.addSystem(playerStateSystem);
 
-    // --- 4. CREATE UI & INPUT HANDLERS ---
-    UIManager uiManager = new UIManager(800, 600);
+    // --- 4. INPUT HANDLERS ---
     InputHandler inputHandler = new InputHandler(inputManager, gameManager);
     inputHandler.attach(scene);
 

@@ -1,16 +1,20 @@
 package com.zekecode.hakai.systems;
 
+import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.engine.events.BrickDestroyedEvent;
+import com.zekecode.hakai.engine.events.ScoreChangedEvent;
 import java.util.List;
 
 public class ScoreSystem extends GameSystem {
   private int score = 0;
+  private EventBus eventBus;
 
-  public ScoreSystem() {
+  public ScoreSystem(EventBus eventBus) {
     this.score = 0;
+    this.eventBus = eventBus;
   }
 
   @Subscribe
@@ -19,6 +23,8 @@ public class ScoreSystem extends GameSystem {
     // type from its components and awarding different point values.
     this.score += 10;
     System.out.println("SCORE: " + this.score);
+
+    eventBus.post(new ScoreChangedEvent(score));
   }
 
   @Override
