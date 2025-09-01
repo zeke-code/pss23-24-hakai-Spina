@@ -1,8 +1,11 @@
 package com.zekecode.hakai.systems;
 
+import com.google.common.eventbus.Subscribe;
 import com.zekecode.hakai.components.*;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
+import com.zekecode.hakai.core.World;
+import com.zekecode.hakai.engine.events.ResetBallEvent;
 import com.zekecode.hakai.engine.input.InputManager;
 import java.util.List;
 import java.util.Optional;
@@ -12,9 +15,30 @@ import javafx.scene.input.KeyCode;
 public class BallSystem extends GameSystem {
 
   private final InputManager inputManager;
+  private final World world; // Add World to find all entities
 
-  public BallSystem(InputManager inputManager) {
+  public BallSystem(InputManager inputManager, World world) {
     this.inputManager = inputManager;
+    this.world = world;
+  }
+
+  @Subscribe
+  public void onResetBall(ResetBallEvent event) {
+    findBall(world.getEntities())
+        .ifPresent(
+            ball -> {
+              // 1. Add the component that makes the ball stick to the paddle.
+              ball.addComponent(new BallStuckToPaddleComponent());
+
+              // 2. Reset its velocity to zero. The launch logic will set a new velocity.
+              ball.getComponent(VelocityComponent.class)
+                  .ifPresent(
+                      vel -> {
+                        vel.x = 0;
+                        vel.y = 0;
+                      });
+              System.out.println("Ball has been reset to the paddle.");
+            });
   }
 
   @Override
@@ -69,6 +93,15 @@ public class BallSystem extends GameSystem {
                 velocity.y = -350; // Launch upwards
               });
     }
+  }
+
+  private Optional<Entity> findBall(List<Entity> entities) {
+    for (Entity entity : entities) {
+      if (entity.hasComponent(BallComponent.class)) {
+        return Optional.of(entity);
+      }
+    }
+    return Optional.empty();
   }
 
   private Optional<Entity> findPaddle(List<Entity> entities) {

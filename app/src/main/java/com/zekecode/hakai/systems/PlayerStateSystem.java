@@ -7,6 +7,7 @@ import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.engine.events.BallLostEvent;
 import com.zekecode.hakai.engine.events.GameOverEvent;
 import com.zekecode.hakai.engine.events.LivesChangedEvent;
+import com.zekecode.hakai.engine.events.ResetBallEvent;
 import java.util.List;
 
 /** Manages the player's state, such as lives, and reacts to game-altering events. */
@@ -31,8 +32,8 @@ public class PlayerStateSystem extends GameSystem {
       // When lives run out, post a new, more specific event.
       eventBus.post(new GameOverEvent());
     } else {
-      // TODO: If the game is not over, we should reset the ball's position.
-      // This would be done by posting a ResetBallEvent, for example.
+      // If the game is not over, we post an event to reset the ball.
+      eventBus.post(new ResetBallEvent());
     }
   }
 

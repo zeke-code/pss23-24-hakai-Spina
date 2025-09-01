@@ -18,7 +18,6 @@ public class PaddleRenderer implements EntityRenderer {
     RenderComponent render = entity.getComponent(RenderComponent.class).get();
 
     // Using a fixed arc size makes the corners rounded but not fully circular.
-    // This is exactly what you asked for!
     double arcSize = 15.0;
 
     // A metallic-looking gradient for the paddle surface

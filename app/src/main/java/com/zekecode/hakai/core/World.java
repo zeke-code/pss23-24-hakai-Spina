@@ -19,6 +19,10 @@ public class World {
     return entity;
   }
 
+  public List<Entity> getEntities() {
+    return new ArrayList<>(entities);
+  }
+
   public void destroyEntity(Entity entity) {
     if (!entitiesToRemove.contains(entity)) {
       entitiesToRemove.add(entity);

@@ -59,18 +59,20 @@ public class Game {
     BrickSystem brickSystem = new BrickSystem(world, eventBus);
     ScoreSystem scoreSystem = new ScoreSystem(eventBus);
     PlayerStateSystem playerStateSystem = new PlayerStateSystem(3, eventBus);
+    BallSystem ballSystem = new BallSystem(inputManager, world);
 
     eventBus.register(gameManager);
     eventBus.register(uiManager);
     eventBus.register(brickSystem);
     eventBus.register(scoreSystem);
     eventBus.register(playerStateSystem);
+    eventBus.register(ballSystem);
 
     world.addSystem(new RenderSystem(gc, renderers));
     world.addSystem(new MovementSystem(inputManager));
     world.addSystem(new CollisionSystem(world, eventBus));
     world.addSystem(new PhysicsSystem(800, 600, eventBus));
-    world.addSystem(new BallSystem(inputManager));
+    world.addSystem(ballSystem);
     world.addSystem(brickSystem);
     world.addSystem(scoreSystem);
     world.addSystem(playerStateSystem);
