@@ -10,6 +10,7 @@ import com.zekecode.hakai.engine.data.BrickTypeData;
 import com.zekecode.hakai.engine.data.LayoutData;
 import com.zekecode.hakai.engine.data.LevelData;
 import com.zekecode.hakai.engine.fx.BackgroundManager;
+import com.zekecode.hakai.engine.fx.SoundManager;
 import com.zekecode.hakai.engine.input.InputHandler;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.entities.EntityFactory;
@@ -50,6 +51,7 @@ public class Game {
     EntityFactory entityFactory = new EntityFactory(world);
     InputManager inputManager = new InputManager();
     UIManager uiManager = new UIManager(800, 600);
+    SoundManager soundManager = new SoundManager();
     List<EntityRenderer> renderers = RendererFactory.createRenderers();
 
     // --- 2. CREATE GAME LOGIC & MANAGER ---
@@ -63,6 +65,7 @@ public class Game {
 
     eventBus.register(gameManager);
     eventBus.register(uiManager);
+    eventBus.register(soundManager);
     eventBus.register(brickSystem);
     eventBus.register(scoreSystem);
     eventBus.register(playerStateSystem);

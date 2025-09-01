@@ -11,6 +11,7 @@ import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.engine.events.BrickHitEvent;
+import com.zekecode.hakai.engine.events.PaddleHitEvent;
 import java.util.List;
 import java.util.Optional;
 
@@ -118,6 +119,8 @@ public class CollisionSystem extends GameSystem {
         double ballCenter = ballPos.x + ballRender.width / 2.0;
         double distanceFromCenter = ballCenter - paddleCenter;
         ballVelocity.x += distanceFromCenter * 2;
+
+        eventBus.post(new PaddleHitEvent());
       }
     }
   }
