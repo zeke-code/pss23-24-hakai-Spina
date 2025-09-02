@@ -1,5 +1,6 @@
 package com.zekecode.hakai.core;
 
+import com.zekecode.hakai.components.DeadComponent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +31,11 @@ public class World {
   }
 
   private void cleanupEntities() {
+    // Collect entities marked for death
+    entities.stream()
+        .filter(e -> e.hasComponent(DeadComponent.class))
+        .forEach(this::destroyEntity); // Add to the removal queue
+
     entities.removeAll(entitiesToRemove);
     entitiesToRemove.clear();
   }

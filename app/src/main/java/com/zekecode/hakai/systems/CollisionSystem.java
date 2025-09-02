@@ -9,7 +9,6 @@ import com.zekecode.hakai.components.RenderComponent;
 import com.zekecode.hakai.components.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
-import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.engine.events.BrickHitEvent;
 import com.zekecode.hakai.engine.events.PaddleHitEvent;
 import java.util.List;
@@ -17,11 +16,9 @@ import java.util.Optional;
 
 public class CollisionSystem extends GameSystem {
 
-  private final World world;
   private final EventBus eventBus;
 
-  public CollisionSystem(World world, EventBus eventBus) {
-    this.world = world;
+  public CollisionSystem(EventBus eventBus) {
     this.eventBus = eventBus;
   }
 

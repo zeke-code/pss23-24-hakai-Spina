@@ -3,20 +3,18 @@ package com.zekecode.hakai.systems;
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import com.zekecode.hakai.components.BrickComponent;
+import com.zekecode.hakai.components.DeadComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
-import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.engine.events.BrickDestroyedEvent;
 import com.zekecode.hakai.engine.events.BrickHitEvent;
 import java.util.List;
 
 public class BrickSystem extends GameSystem {
 
-  private final World world;
   private final EventBus eventBus;
 
-  public BrickSystem(World world, EventBus eventBus) {
-    this.world = world;
+  public BrickSystem(EventBus eventBus) {
     this.eventBus = eventBus;
   }
 
@@ -33,7 +31,7 @@ public class BrickSystem extends GameSystem {
                 // Before destroying the entity, publish the "destroyed" event.
                 eventBus.post(new BrickDestroyedEvent(brickEntity));
 
-                world.destroyEntity(brickEntity);
+                brickEntity.addComponent(new DeadComponent());
               }
             });
   }
