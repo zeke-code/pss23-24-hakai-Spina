@@ -45,9 +45,9 @@ public class World {
   }
 
   public void update(double deltaTime) {
-    for (GameSystem system : systems) {
-      system.update(entities, deltaTime);
-    }
     cleanupEntities();
+    for (GameSystem system : systems) {
+      system.update(new ArrayList<>(entities), deltaTime);
+    }
   }
 }
