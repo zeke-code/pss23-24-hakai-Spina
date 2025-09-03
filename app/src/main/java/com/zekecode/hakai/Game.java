@@ -10,6 +10,9 @@ import com.zekecode.hakai.engine.input.InputHandler;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.systems.*;
+import com.zekecode.hakai.systems.collisions.BallBrickCollisionSystem;
+import com.zekecode.hakai.systems.collisions.BallPaddleCollisionSystem;
+import com.zekecode.hakai.systems.collisions.CollisionSystem;
 import com.zekecode.hakai.systems.rendering.EntityRenderer;
 import com.zekecode.hakai.systems.rendering.RenderSystem;
 import com.zekecode.hakai.systems.rendering.RendererFactory;
@@ -57,6 +60,8 @@ public class Game {
     ScoreSystem scoreSystem = new ScoreSystem(eventBus);
     PlayerStateSystem playerStateSystem = new PlayerStateSystem(3, eventBus);
     BallSystem ballSystem = new BallSystem(inputManager);
+    BallPaddleCollisionSystem ballPaddleCollisionSystem = new BallPaddleCollisionSystem(eventBus);
+    BallBrickCollisionSystem ballBrickCollisionSystem = new BallBrickCollisionSystem(eventBus);
 
     eventBus.register(gameManager);
     eventBus.register(uiManager);
@@ -65,6 +70,8 @@ public class Game {
     eventBus.register(scoreSystem);
     eventBus.register(playerStateSystem);
     eventBus.register(ballSystem);
+    eventBus.register(ballPaddleCollisionSystem);
+    eventBus.register((ballBrickCollisionSystem));
 
     world.addSystem(new RenderSystem(gc, renderers));
     world.addSystem(new MovementSystem(inputManager));
