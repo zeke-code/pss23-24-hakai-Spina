@@ -12,4 +12,5 @@ public class BrickTypeData {
   // This allows them to be 'null' if they are not specified in the YAML file.
   public Double width;
   public Double height;
+  public String powerUp;
 }

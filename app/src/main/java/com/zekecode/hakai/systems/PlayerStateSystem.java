@@ -2,6 +2,8 @@ package com.zekecode.hakai.systems;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
+import com.zekecode.hakai.components.BallComponent;
+import com.zekecode.hakai.components.DeadComponent;
 import com.zekecode.hakai.components.PlayerStateComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
@@ -24,29 +26,45 @@ public class PlayerStateSystem extends GameSystem {
     this.eventBus = eventBus;
   }
 
-  /** This method listens for the BallLostEvent. */
+  /** This method listens for the BallLostEvent. It now implements the multi-ball logic. */
   @Subscribe
   public void onBallLost(BallLostEvent event) {
-    // 1. Find the single entity that holds the player's state.
-    Optional<Entity> stateEntityOpt = findGameStateEntity();
+    // 1. Mark the specific ball that was lost as "dead".
+    // It will be removed from the world on the next update cycle.
+    event.ballEntity.addComponent(new DeadComponent());
 
-    if (stateEntityOpt.isEmpty()) {
-      System.err.println("PlayerStateSystem could not find the game state entity!");
-      return;
-    }
+    // 2. Count how many balls are *still active* in the game world.
+    long remainingBalls =
+        world.getEntities().stream()
+            .filter(
+                e -> e.hasComponent(BallComponent.class) && !e.hasComponent(DeadComponent.class))
+            .count();
 
-    // 2. Get the component and modify its data.
-    PlayerStateComponent state =
-        stateEntityOpt.get().getComponent(PlayerStateComponent.class).get();
-    state.lives--; // Decrement the lives on the component
+    // 3. Only if there are no balls left, do we process losing a life.
+    if (remainingBalls == 0) {
+      System.out.println("LAST BALL LOST! Processing life lost.");
 
-    System.out.println("LIFE LOST! Lives remaining: " + state.lives);
-    eventBus.post(new LivesChangedEvent(state.lives));
+      // Find the single entity that holds the player's state.
+      Optional<Entity> stateEntityOpt = findGameStateEntity();
+      if (stateEntityOpt.isEmpty()) {
+        System.err.println("PlayerStateSystem could not find the game state entity!");
+        return;
+      }
 
-    if (state.lives <= 0) {
-      eventBus.post(new GameOverEvent());
-    } else {
-      eventBus.post(new ResetBallEvent());
+      // Get the component and modify its data.
+      PlayerStateComponent state =
+          stateEntityOpt.get().getComponent(PlayerStateComponent.class).get();
+      state.lives--; // Decrement the lives on the component
+
+      System.out.println("Lives remaining: " + state.lives);
+      eventBus.post(new LivesChangedEvent(state.lives));
+
+      if (state.lives <= 0) {
+        eventBus.post(new GameOverEvent());
+      } else {
+        // Post an event to reset ONE ball back on the paddle.
+        eventBus.post(new ResetBallEvent());
+      }
     }
   }
 

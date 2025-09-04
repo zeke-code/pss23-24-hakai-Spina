@@ -53,7 +53,8 @@ public class PhysicsSystem extends GameSystem {
                                   .getComponent(RenderComponent.class)
                                   .ifPresent(
                                       render ->
-                                          handleBallWallCollision(position, velocity, render));
+                                          handleBallWallCollision(
+                                              entity, position, velocity, render));
                             }
 
                             // --- Rule for the Player Paddle ---
@@ -82,14 +83,20 @@ public class PhysicsSystem extends GameSystem {
   }
 
   /**
-   * Handles the ball's bouncing behavior when it collides with the screen edges.
+   * Handles collisions between the ball and the walls of the screen. Bounces the ball off the left,
+   * right, and top walls. If the ball goes below the bottom of the screen, it triggers a
+   * BallLostEvent.
    *
-   * @param position The ball's PositionComponent.
-   * @param velocity The ball's VelocityComponent.
-   * @param render The ball's RenderComponent to get its size.
+   * @param ballEntity The ball entity that is being processed.
+   * @param position the ball's PositionComponent.
+   * @param velocity the ball's VelocityComponent.
+   * @param render the ball's RenderComponent to get its size.
    */
   private void handleBallWallCollision(
-      PositionComponent position, VelocityComponent velocity, RenderComponent render) {
+      Entity ballEntity,
+      PositionComponent position,
+      VelocityComponent velocity,
+      RenderComponent render) {
     // Bounce off left or right wall
     if (position.x <= 0 && velocity.x < 0) {
       velocity.x *= -1; // Reverse horizontal velocity
@@ -104,7 +111,8 @@ public class PhysicsSystem extends GameSystem {
     }
 
     if (position.y + render.height >= screenHeight) {
-      eventBus.post(new BallLostEvent());
+      // Post the event with the specific entity that was lost.
+      eventBus.post(new BallLostEvent(ballEntity));
     }
   }
 }

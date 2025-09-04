@@ -1,0 +1,34 @@
+levelName: "Arrowhead"
+levelNumber: 1
+background: "backgrounds/space_loop.gif"
+
+layout:
+  # The default size for all bricks in this level.
+  defaultBrickWidth: 75
+  defaultBrickHeight: 20
+
+  # Grid properties
+  padding: 5
+  offsetTop: 60
+
+  pattern:
+    - "..SS..SS.."
+    - ".SPPPPSPS."
+    - ".SBBBBBBBS."
+    - "..BBBBBB.."
+    - "...BBBB..."
+    - "....BB...."
+
+brickTypes:
+  'S':
+    color: "#BDC3C7" # Silver
+    hp: 1
+
+  'B':
+    color: "#3498DB" # Peter River Blue
+    hp: 1
+
+  'P':
+    color: "#9B59B6" # Amethyst Purple
+    hp: 1
+    powerUp: "PADDLE_SIZE_INCREASE"

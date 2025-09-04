@@ -52,7 +52,8 @@ public class LevelManager {
         double x = (col * (layout.defaultBrickWidth + layout.padding)) + layout.padding;
         double y = (row * (layout.defaultBrickHeight + layout.padding)) + layout.offsetTop;
 
-        entityFactory.createBrick(x, y, brickWidth, brickHeight, Color.web(type.color), type.hp);
+        entityFactory.createBrick(
+            x, y, brickWidth, brickHeight, Color.web(type.color), type.hp, type.powerUp);
       }
     }
     return level;

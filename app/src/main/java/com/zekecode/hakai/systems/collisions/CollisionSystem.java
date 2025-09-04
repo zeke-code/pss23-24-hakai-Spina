@@ -1,10 +1,10 @@
 package com.zekecode.hakai.systems.collisions;
 
 import com.google.common.eventbus.EventBus;
-import com.zekecode.hakai.components.BallComponent;
 import com.zekecode.hakai.components.CollidableComponent;
 import com.zekecode.hakai.components.PositionComponent;
 import com.zekecode.hakai.components.RenderComponent;
+import com.zekecode.hakai.components.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.engine.events.CollisionEvent;
@@ -20,44 +20,36 @@ public class CollisionSystem extends GameSystem {
 
   @Override
   public void update(List<Entity> entities, double deltaTime) {
-    // 1. Pre-filter the entity list into more specific groups for efficiency.
-    List<Entity> balls =
-        entities.stream().filter(e -> e.hasComponent(BallComponent.class)).toList();
-
     List<Entity> collidables =
-        entities.stream().filter(e -> e.hasComponent(CollidableComponent.class)).toList();
+        entities.stream()
+            .filter(
+                e ->
+                    e.hasComponent(CollidableComponent.class)
+                        && e.hasComponent(PositionComponent.class)
+                        && e.hasComponent(RenderComponent.class))
+            .toList();
 
-    // If there are no balls or nothing to collide with, no need to proceed.
-    if (balls.isEmpty() || collidables.isEmpty()) {
-      return;
-    }
+    // Use a nested loop to check every unique pair of collidable entities.
+    for (int i = 0; i < collidables.size(); i++) {
+      Entity entityA = collidables.get(i);
+      PositionComponent posA = entityA.getComponent(PositionComponent.class).get();
+      RenderComponent renderA = entityA.getComponent(RenderComponent.class).get();
 
-    // 2. Check every ball against every collidable entity.
-    for (Entity ball : balls) {
-      // It's safe to .get() these components because a ball will always have them.
-      PositionComponent ballPos = ball.getComponent(PositionComponent.class).get();
-      RenderComponent ballRender = ball.getComponent(RenderComponent.class).get();
+      for (int j = i + 1; j < collidables.size(); j++) {
+        Entity entityB = collidables.get(j);
 
-      for (Entity other : collidables) {
-        // A collidable entity might be the ball itself, so we must prevent self-collision checks.
-        if (other.getId() == ball.getId()) {
+        // Optimization: Don't check for collisions between two static objects (e.g., two bricks).
+        if (!entityA.hasComponent(VelocityComponent.class)
+            && !entityB.hasComponent(VelocityComponent.class)) {
           continue;
         }
 
-        // We can be confident these components exist because CollidableComponent
-        // is only added to renderable entities.
-        other
-            .getComponent(PositionComponent.class)
-            .ifPresent(
-                otherPos ->
-                    other
-                        .getComponent(RenderComponent.class)
-                        .ifPresent(
-                            otherRender -> {
-                              if (isColliding(ballPos, ballRender, otherPos, otherRender)) {
-                                eventBus.post(new CollisionEvent(ball, other));
-                              }
-                            }));
+        PositionComponent posB = entityB.getComponent(PositionComponent.class).get();
+        RenderComponent renderB = entityB.getComponent(RenderComponent.class).get();
+
+        if (isColliding(posA, renderA, posB, renderB)) {
+          eventBus.post(new CollisionEvent(entityA, entityB));
+        }
       }
     }
   }

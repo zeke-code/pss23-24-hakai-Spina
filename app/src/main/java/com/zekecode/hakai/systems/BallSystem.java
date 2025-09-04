@@ -6,59 +6,54 @@ import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.engine.events.ResetBallEvent;
 import com.zekecode.hakai.engine.input.InputManager;
+import com.zekecode.hakai.entities.EntityFactory;
 import java.util.List;
 import java.util.Optional;
 import javafx.scene.input.KeyCode;
 
-/** Manages the state of the ball, including sticking it to the paddle and launching it. */
+/** A system that manages the ball's behavior, including sticking to the paddle and launching. */
 public class BallSystem extends GameSystem {
 
   private final InputManager inputManager;
-  // Cache the ball and paddle entities for performance.
-  private Entity cachedBall;
-  private Entity cachedPaddle;
+  private final EntityFactory entityFactory;
 
-  public BallSystem(InputManager inputManager) {
+  public BallSystem(InputManager inputManager, EntityFactory entityFactory) {
     this.inputManager = inputManager;
+    this.entityFactory = entityFactory;
   }
 
+  /**
+   * Handles the ResetBallEvent by creating a new ball entity.
+   *
+   * @param event The ResetBallEvent instance.
+   */
   @Subscribe
   public void onResetBall(ResetBallEvent event) {
-    if (this.cachedBall != null) {
-      // 1. Add the component that makes the ball stick to the paddle.
-      cachedBall.addComponent(new BallStuckToPaddleComponent());
+    System.out.println("ResetBallEvent received. Creating a new ball.");
 
-      // 2. Reset its velocity to zero. The launch logic will set a new velocity.
-      cachedBall
-          .getComponent(VelocityComponent.class)
-          .ifPresent(
-              vel -> {
-                vel.x = 0;
-                vel.y = 0;
-              });
-      System.out.println("Ball has been reset to the paddle.");
-    }
+    // The factory creates a new ball with the BallStuckToPaddleComponent already on it.
+    // The exact coordinates don't matter, as the update() loop will snap it to
+    // the paddle on the very next frame.
+    entityFactory.createBall(800 / 2.0 - 7.5, 600 / 2.0);
   }
 
   @Override
   public void update(List<Entity> entities, double deltaTime) {
-    // Find and cache the entities on the first run or if they've been destroyed.
-    if (cachedPaddle == null) {
-      findPaddle(entities).ifPresent(p -> this.cachedPaddle = p);
+    // Find the single paddle entity on every frame.
+    Optional<Entity> paddleOpt = findPaddle(entities);
+    if (paddleOpt.isEmpty()) {
+      return; // If there's no paddle, we can't do anything.
     }
-    if (cachedBall == null) {
-      findBall(entities).ifPresent(b -> this.cachedBall = b);
-    }
+    Entity paddle = paddleOpt.get();
 
-    // If there's no paddle or ball, there's nothing to do.
-    if (cachedPaddle == null || cachedBall == null) {
-      return;
-    }
-
-    // If the ball has the "stuck" component, process its logic.
-    if (cachedBall.hasComponent(BallStuckToPaddleComponent.class)) {
-      stickBallToPaddle(cachedBall, cachedPaddle);
-      handleLaunch(cachedBall);
+    // Iterate over all entities. If an entity is a ball and is marked as "stuck",
+    // process its logic. This is now stateless and supports multiple balls.
+    for (Entity ball : entities) {
+      if (ball.hasComponent(BallComponent.class)
+          && ball.hasComponent(BallStuckToPaddleComponent.class)) {
+        stickBallToPaddle(ball, paddle);
+        handleLaunch(ball);
+      }
     }
   }
 
@@ -97,10 +92,6 @@ public class BallSystem extends GameSystem {
                 velocity.y = -350; // Launch upwards
               });
     }
-  }
-
-  private Optional<Entity> findBall(List<Entity> entities) {
-    return entities.stream().filter(e -> e.hasComponent(BallComponent.class)).findFirst();
   }
 
   private Optional<Entity> findPaddle(List<Entity> entities) {

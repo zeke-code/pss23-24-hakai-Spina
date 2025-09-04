@@ -13,6 +13,9 @@ import com.zekecode.hakai.systems.*;
 import com.zekecode.hakai.systems.collisions.BallBrickCollisionSystem;
 import com.zekecode.hakai.systems.collisions.BallPaddleCollisionSystem;
 import com.zekecode.hakai.systems.collisions.CollisionSystem;
+import com.zekecode.hakai.systems.powerups.PaddlePowerUpCollisionSystem;
+import com.zekecode.hakai.systems.powerups.PowerUpEffectSystem;
+import com.zekecode.hakai.systems.powerups.PowerUpSpawnSystem;
 import com.zekecode.hakai.systems.rendering.EntityRenderer;
 import com.zekecode.hakai.systems.rendering.RenderSystem;
 import com.zekecode.hakai.systems.rendering.RendererFactory;
@@ -59,9 +62,13 @@ public class Game {
     BrickSystem brickSystem = new BrickSystem(eventBus);
     ScoreSystem scoreSystem = new ScoreSystem(world, eventBus);
     PlayerStateSystem playerStateSystem = new PlayerStateSystem(world, eventBus);
-    BallSystem ballSystem = new BallSystem(inputManager);
+    BallSystem ballSystem = new BallSystem(inputManager, entityFactory);
     BallPaddleCollisionSystem ballPaddleCollisionSystem = new BallPaddleCollisionSystem(eventBus);
     BallBrickCollisionSystem ballBrickCollisionSystem = new BallBrickCollisionSystem(eventBus);
+    PowerUpSpawnSystem powerUpSpawnSystem = new PowerUpSpawnSystem(entityFactory);
+    PaddlePowerUpCollisionSystem paddlePowerUpCollisionSystem =
+        new PaddlePowerUpCollisionSystem(eventBus);
+    PowerUpEffectSystem powerUpEffectSystem = new PowerUpEffectSystem();
 
     eventBus.register(gameManager);
     eventBus.register(uiManager);
@@ -72,6 +79,9 @@ public class Game {
     eventBus.register(ballSystem);
     eventBus.register(ballPaddleCollisionSystem);
     eventBus.register((ballBrickCollisionSystem));
+    eventBus.register(powerUpSpawnSystem);
+    eventBus.register(paddlePowerUpCollisionSystem);
+    eventBus.register(powerUpEffectSystem);
 
     world.addSystem(new RenderSystem(gc, renderers));
     world.addSystem(new MovementSystem(inputManager));
@@ -81,13 +91,14 @@ public class Game {
     world.addSystem(brickSystem);
     world.addSystem(scoreSystem);
     world.addSystem(playerStateSystem);
+    world.addSystem(powerUpEffectSystem);
 
     // --- 4. INPUT HANDLERS ---
     InputHandler inputHandler = new InputHandler(inputManager, gameManager);
     inputHandler.attach(scene);
 
     // --- 5. LOAD LEVEL, INITIALIZE BACKGROUND, AND SPAWN ENTITIES ---
-    LevelData level = levelManager.loadAndBuildLevel("level_1.yml");
+    LevelData level = levelManager.loadAndBuildLevel("level_2.yml");
     this.backgroundManager = new BackgroundManager(level.background, 800, 600);
     entityFactory.createPlayerState();
     entityFactory.createPlayer(800 / 2.0 - 50, 600 - 50);

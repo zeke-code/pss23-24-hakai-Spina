@@ -76,7 +76,8 @@ public class EntityFactory {
    * @param hp The hit points (durability) of the brick.
    * @return The fully configured brick Entity.
    */
-  public Entity createBrick(double x, double y, double width, double height, Color color, int hp) {
+  public Entity createBrick(
+      double x, double y, double width, double height, Color color, int hp, String powerUpType) {
     Entity brick = world.createEntity();
 
     brick.addComponent(new PositionComponent(x, y));
@@ -84,7 +85,29 @@ public class EntityFactory {
     brick.addComponent(new BrickComponent(hp));
     brick.addComponent(new CollidableComponent());
 
+    if (powerUpType != null && !powerUpType.isBlank()) {
+      brick.addComponent(new PowerUpComponent(powerUpType));
+    }
+
     return brick;
+  }
+
+  /**
+   * Creates a falling power-up item that can be collected by the player.
+   *
+   * @param x The initial x position (usually from a destroyed brick).
+   * @param y The initial y position (usually from a destroyed brick).
+   * @param powerUpType The type of power-up (e.g., "PADDLE_SIZE_INCREASE").
+   * @return The fully configured power-up drop Entity.
+   */
+  public Entity createPowerUpDrop(double x, double y, String powerUpType) {
+    Entity drop = world.createEntity();
+    drop.addComponent(new PositionComponent(x, y));
+    drop.addComponent(new VelocityComponent(0, 150)); // Move downwards
+    drop.addComponent(new RenderComponent(40, 15, Color.CYAN));
+    drop.addComponent(new PowerUpDropComponent(powerUpType));
+    drop.addComponent(new CollidableComponent());
+    return drop;
   }
 
   // In EntityFactory.java
