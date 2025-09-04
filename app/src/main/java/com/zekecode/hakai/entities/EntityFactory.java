@@ -37,6 +37,7 @@ public class EntityFactory {
     player.addComponent(new PositionComponent(x, y));
     player.addComponent(new VelocityComponent(0, 0)); // Starts stationary
     player.addComponent(new RenderComponent(100, 20, Color.WHITE));
+    player.addComponent(new CollidableComponent());
     player.addComponent(new InputComponent()); // This marks the entity as player-controlled
 
     return player;
@@ -57,6 +58,7 @@ public class EntityFactory {
     ball.addComponent(new VelocityComponent(200, 200)); // Initial velocity
     ball.addComponent(new RenderComponent(15, 15, Color.WHITE));
     ball.addComponent(new BallComponent());
+    ball.addComponent(new CollidableComponent());
     ball.addComponent(new BallStuckToPaddleComponent());
 
     return ball;
@@ -80,8 +82,22 @@ public class EntityFactory {
     brick.addComponent(new PositionComponent(x, y));
     brick.addComponent(new RenderComponent(width, height, color));
     brick.addComponent(new BrickComponent(hp));
-    // Note: Bricks don't have a VelocityComponent, so the PhysicsSystem ignores them.
+    brick.addComponent(new CollidableComponent());
 
     return brick;
+  }
+
+  // In EntityFactory.java
+
+  /**
+   * Creates a single entity to track global game state, such as score and lives.
+   *
+   * @return The game state Entity.
+   */
+  public Entity createPlayerState() {
+    Entity gameState = world.createEntity();
+    gameState.addComponent(new PlayerStateComponent(3));
+    gameState.addComponent(new ScoreComponent());
+    return gameState;
   }
 }

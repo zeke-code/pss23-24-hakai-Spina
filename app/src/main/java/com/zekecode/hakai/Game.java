@@ -57,8 +57,8 @@ public class Game {
 
     // --- 3. CREATE SYSTEMS AND REGISTER LISTENERS ---
     BrickSystem brickSystem = new BrickSystem(eventBus);
-    ScoreSystem scoreSystem = new ScoreSystem(eventBus);
-    PlayerStateSystem playerStateSystem = new PlayerStateSystem(3, eventBus);
+    ScoreSystem scoreSystem = new ScoreSystem(world, eventBus);
+    PlayerStateSystem playerStateSystem = new PlayerStateSystem(world, eventBus);
     BallSystem ballSystem = new BallSystem(inputManager);
     BallPaddleCollisionSystem ballPaddleCollisionSystem = new BallPaddleCollisionSystem(eventBus);
     BallBrickCollisionSystem ballBrickCollisionSystem = new BallBrickCollisionSystem(eventBus);
@@ -89,6 +89,7 @@ public class Game {
     // --- 5. LOAD LEVEL, INITIALIZE BACKGROUND, AND SPAWN ENTITIES ---
     LevelData level = levelManager.loadAndBuildLevel("level_1.yml");
     this.backgroundManager = new BackgroundManager(level.background, 800, 600);
+    entityFactory.createPlayerState();
     entityFactory.createPlayer(800 / 2.0 - 50, 600 - 50);
     entityFactory.createBall(800 / 2.0 - 7.5, 600 / 2.0);
 

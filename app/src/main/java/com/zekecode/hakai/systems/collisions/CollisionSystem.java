@@ -2,13 +2,13 @@ package com.zekecode.hakai.systems.collisions;
 
 import com.google.common.eventbus.EventBus;
 import com.zekecode.hakai.components.BallComponent;
+import com.zekecode.hakai.components.CollidableComponent;
 import com.zekecode.hakai.components.PositionComponent;
 import com.zekecode.hakai.components.RenderComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.engine.events.CollisionEvent;
 import java.util.List;
-import java.util.Optional;
 
 public class CollisionSystem extends GameSystem {
 
@@ -20,35 +20,45 @@ public class CollisionSystem extends GameSystem {
 
   @Override
   public void update(List<Entity> entities, double deltaTime) {
-    Optional<Entity> ballOpt = findBall(entities);
-    if (ballOpt.isEmpty()) {
-      return; // No ball, no collisions to check.
+    // 1. Pre-filter the entity list into more specific groups for efficiency.
+    List<Entity> balls =
+        entities.stream().filter(e -> e.hasComponent(BallComponent.class)).toList();
+
+    List<Entity> collidables =
+        entities.stream().filter(e -> e.hasComponent(CollidableComponent.class)).toList();
+
+    // If there are no balls or nothing to collide with, no need to proceed.
+    if (balls.isEmpty() || collidables.isEmpty()) {
+      return;
     }
-    Entity ball = ballOpt.get();
 
-    PositionComponent ballPos = ball.getComponent(PositionComponent.class).get();
-    RenderComponent ballRender = ball.getComponent(RenderComponent.class).get();
+    // 2. Check every ball against every collidable entity.
+    for (Entity ball : balls) {
+      // It's safe to .get() these components because a ball will always have them.
+      PositionComponent ballPos = ball.getComponent(PositionComponent.class).get();
+      RenderComponent ballRender = ball.getComponent(RenderComponent.class).get();
 
-    // Check the ball against every other entity
-    for (Entity other : entities) {
-      if (other.getId() == ball.getId()) {
-        continue; // Don't collide with yourself
+      for (Entity other : collidables) {
+        // A collidable entity might be the ball itself, so we must prevent self-collision checks.
+        if (other.getId() == ball.getId()) {
+          continue;
+        }
+
+        // We can be confident these components exist because CollidableComponent
+        // is only added to renderable entities.
+        other
+            .getComponent(PositionComponent.class)
+            .ifPresent(
+                otherPos ->
+                    other
+                        .getComponent(RenderComponent.class)
+                        .ifPresent(
+                            otherRender -> {
+                              if (isColliding(ballPos, ballRender, otherPos, otherRender)) {
+                                eventBus.post(new CollisionEvent(ball, other));
+                              }
+                            }));
       }
-
-      // We only care about collidable entities (those with position and render components)
-      other
-          .getComponent(PositionComponent.class)
-          .ifPresent(
-              otherPos ->
-                  other
-                      .getComponent(RenderComponent.class)
-                      .ifPresent(
-                          otherRender -> {
-                            if (isColliding(ballPos, ballRender, otherPos, otherRender)) {
-                              // The ONLY job is to post a generic event.
-                              eventBus.post(new CollisionEvent(ball, other));
-                            }
-                          }));
     }
   }
 
@@ -61,14 +71,5 @@ public class CollisionSystem extends GameSystem {
         && posA.x + renderA.width > posB.x
         && posA.y < posB.y + renderB.height
         && posA.y + renderA.height > posB.y;
-  }
-
-  private Optional<Entity> findBall(List<Entity> entities) {
-    for (Entity entity : entities) {
-      if (entity.hasComponent(BallComponent.class)) {
-        return Optional.of(entity);
-      }
-    }
-    return Optional.empty();
   }
 }

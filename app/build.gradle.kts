@@ -25,12 +25,14 @@ repositories {
 dependencies {
     // Use JUnit Jupiter for testing.
     testImplementation(libs.junit.jupiter)
-
+    testImplementation("org.mockito:mockito-junit-jupiter:5.19.0")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
-    // Guava EventBus might be needed in the future.
+    // Guava EventBus for event handling
     implementation(libs.guava)
+    // YAML library for configuration files
     implementation("org.yaml:snakeyaml:2.4")
+    // ClassGraph for classpath scanning
     implementation("io.github.classgraph:classgraph:4.8.181")
 }
 
