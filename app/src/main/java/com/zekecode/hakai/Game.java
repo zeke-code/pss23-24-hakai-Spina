@@ -5,7 +5,7 @@ import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.engine.*;
 import com.zekecode.hakai.engine.data.LevelData;
 import com.zekecode.hakai.engine.fx.BackgroundManager;
-import com.zekecode.hakai.engine.fx.SoundManager;
+import com.zekecode.hakai.engine.fx.sounds.SoundManager;
 import com.zekecode.hakai.engine.input.InputHandler;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.entities.EntityFactory;
