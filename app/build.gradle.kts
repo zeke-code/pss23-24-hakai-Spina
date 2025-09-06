@@ -31,7 +31,7 @@ dependencies {
     // Guava EventBus for event handling
     implementation(libs.guava)
     // YAML library for configuration files
-    implementation("org.yaml:snakeyaml:2.4")
+    implementation("org.yaml:snakeyaml:2.5")
     // ClassGraph for classpath scanning
     implementation("io.github.classgraph:classgraph:4.8.181")
 }
