@@ -29,7 +29,6 @@ public class CollisionSystem extends GameSystem {
                         && e.hasComponent(RenderComponent.class))
             .toList();
 
-    // Use a nested loop to check every unique pair of collidable entities.
     for (int i = 0; i < collidables.size(); i++) {
       Entity entityA = collidables.get(i);
       PositionComponent posA = entityA.getComponent(PositionComponent.class).get();
@@ -38,7 +37,10 @@ public class CollisionSystem extends GameSystem {
       for (int j = i + 1; j < collidables.size(); j++) {
         Entity entityB = collidables.get(j);
 
-        // Optimization: Don't check for collisions between two static objects (e.g., two bricks).
+        if (entityA.getId() == entityB.getId()) {
+          continue;
+        }
+
         if (!entityA.hasComponent(VelocityComponent.class)
             && !entityB.hasComponent(VelocityComponent.class)) {
           continue;
@@ -60,8 +62,8 @@ public class CollisionSystem extends GameSystem {
       PositionComponent posB,
       RenderComponent renderB) {
     return posA.x < posB.x + renderB.width
-        && posA.x + renderA.width > posB.x
+        && posA.x + renderA.width >= posB.x
         && posA.y < posB.y + renderB.height
-        && posA.y + renderA.height > posB.y;
+        && posA.y + renderA.height >= posB.y;
   }
 }
