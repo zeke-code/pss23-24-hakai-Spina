@@ -102,13 +102,14 @@ public class GameBuilder {
     // --- CREATE SYSTEMS ---
     BrickSystem brickSystem = new BrickSystem(eventBus);
     ScoreSystem scoreSystem = new ScoreSystem(world, eventBus);
-    PlayerStateSystem playerStateSystem = new PlayerStateSystem(world, eventBus);
+    LivesSystem livesSystem = new LivesSystem(world, eventBus);
     BallSystem ballSystem = new BallSystem(inputManager, entityFactory);
     BallPaddleCollisionSystem ballPaddleCollisionSystem = new BallPaddleCollisionSystem(eventBus);
     BallBrickCollisionSystem ballBrickCollisionSystem = new BallBrickCollisionSystem(eventBus);
     PaddlePowerUpCollisionSystem paddlePowerUpCollisionSystem =
         new PaddlePowerUpCollisionSystem(eventBus);
     PowerUpSystem powerUpSystem = new PowerUpSystem(world, entityFactory, effectRegistry);
+    LevelCompletionSystem levelCompletionSystem = new LevelCompletionSystem(world, eventBus);
 
     // --- REGISTER EVENT LISTENERS ---
     eventBus.register(gameManager);
@@ -116,12 +117,13 @@ public class GameBuilder {
     eventBus.register(soundManager);
     eventBus.register(brickSystem);
     eventBus.register(scoreSystem);
-    eventBus.register(playerStateSystem);
+    eventBus.register(livesSystem);
     eventBus.register(ballSystem);
     eventBus.register(ballPaddleCollisionSystem);
     eventBus.register(ballBrickCollisionSystem);
     eventBus.register(paddlePowerUpCollisionSystem);
     eventBus.register(powerUpSystem);
+    eventBus.register(levelCompletionSystem);
 
     // --- ADD SYSTEMS TO THE WORLD'S UPDATE LOOP ---
     world.addSystem(new RenderSystem(gc, renderers));
@@ -131,8 +133,9 @@ public class GameBuilder {
     world.addSystem(ballSystem);
     world.addSystem(brickSystem);
     world.addSystem(scoreSystem);
-    world.addSystem(playerStateSystem);
+    world.addSystem(livesSystem);
     world.addSystem(new EffectManagementSystem());
     world.addSystem(powerUpSystem);
+    world.addSystem(levelCompletionSystem);
   }
 }

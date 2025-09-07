@@ -2,7 +2,8 @@ package com.zekecode.hakai.engine.game;
 
 import com.google.common.eventbus.Subscribe;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.events.GameOverEvent;
+import com.zekecode.hakai.events.LevelClearEvent;
+import com.zekecode.hakai.events.states.GameOverEvent;
 
 /** Manages the high-level game state (e.g., Running, Paused, GameOver). */
 public class GameManager {
@@ -23,6 +24,16 @@ public class GameManager {
   @Subscribe
   public void onGameOver(GameOverEvent event) {
     setGameState(GameState.GAME_OVER);
+  }
+
+  /**
+   * Event listener for the level clear event. Sets the game state to LEVEL_CLEAR.
+   *
+   * @param event - LevelClearEvent
+   */
+  @Subscribe
+  public void onLevelClear(LevelClearEvent event) {
+    setGameState(GameState.LEVEL_CLEAR);
   }
 
   public void update(double deltaTime) {

@@ -5,5 +5,6 @@ public enum GameState {
   MAIN_MENU,
   RUNNING,
   PAUSED,
-  GAME_OVER
+  GAME_OVER,
+  LEVEL_CLEAR
 }

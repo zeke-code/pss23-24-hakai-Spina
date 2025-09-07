@@ -7,12 +7,13 @@ import com.google.common.eventbus.EventBus;
 import com.zekecode.hakai.components.ball.BallComponent;
 import com.zekecode.hakai.components.entities.DeadComponent;
 import com.zekecode.hakai.components.entities.PlayerStateComponent;
+import com.zekecode.hakai.config.GameConfig;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.events.GameOverEvent;
 import com.zekecode.hakai.events.LivesChangedEvent;
 import com.zekecode.hakai.events.ball.BallLostEvent;
 import com.zekecode.hakai.events.ball.ResetBallEvent;
+import com.zekecode.hakai.events.states.GameOverEvent;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,20 +23,20 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
-class PlayerStateSystemTest {
+class LivesSystemTest {
 
   @Mock private World world;
   @Mock private EventBus eventBus;
 
-  private PlayerStateSystem playerStateSystem;
+  private LivesSystem livesSystem;
   private Entity gameStateEntity;
   private PlayerStateComponent playerStateComponent;
 
   @BeforeEach
   void setUp() {
-    playerStateSystem = new PlayerStateSystem(world, eventBus);
+    livesSystem = new LivesSystem(world, eventBus);
     gameStateEntity = new Entity(0);
-    playerStateComponent = new PlayerStateComponent(3); // Start with 3 lives
+    playerStateComponent = new PlayerStateComponent(GameConfig.PLAYER_STARTING_LIVES);
     gameStateEntity.addComponent(playerStateComponent);
   }
 
@@ -51,7 +52,7 @@ class PlayerStateSystemTest {
     when(world.getEntities()).thenReturn(List.of(gameStateEntity, ballEntity));
 
     // ACT
-    playerStateSystem.onBallLost(event);
+    livesSystem.onBallLost(event);
 
     // ASSERT
     // The specific ball that was lost should be marked for deletion.
@@ -85,7 +86,7 @@ class PlayerStateSystemTest {
     when(world.getEntities()).thenReturn(List.of(gameStateEntity, lostBall, remainingBall));
 
     // ACT
-    playerStateSystem.onBallLost(event);
+    livesSystem.onBallLost(event);
 
     // ASSERT
     // The lost ball is marked as dead, but the other remains.
@@ -112,7 +113,7 @@ class PlayerStateSystemTest {
     when(world.getEntities()).thenReturn(List.of(gameStateEntity, ballEntity));
 
     // ACT
-    playerStateSystem.onBallLost(event);
+    livesSystem.onBallLost(event);
 
     // ASSERT
     assertEquals(0, playerStateComponent.lives);

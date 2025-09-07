@@ -8,25 +8,25 @@ import com.zekecode.hakai.components.entities.PlayerStateComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.events.GameOverEvent;
 import com.zekecode.hakai.events.LivesChangedEvent;
 import com.zekecode.hakai.events.ball.BallLostEvent;
 import com.zekecode.hakai.events.ball.ResetBallEvent;
+import com.zekecode.hakai.events.states.GameOverEvent;
 import java.util.List;
 import java.util.Optional;
 
-/** Manages the player's state by modifying the global PlayerStateComponent. */
-public class PlayerStateSystem extends GameSystem {
+/** Manages the player's lives by modifying the global PlayerStateComponent. */
+public class LivesSystem extends GameSystem {
 
   private final EventBus eventBus;
   private final World world;
 
-  public PlayerStateSystem(World world, EventBus eventBus) {
+  public LivesSystem(World world, EventBus eventBus) {
     this.world = world;
     this.eventBus = eventBus;
   }
 
-  /** This method listens for the BallLostEvent. It now implements the multi-ball logic. */
+  /** This method listens for the BallLostEvent. */
   @Subscribe
   public void onBallLost(BallLostEvent event) {
     // 1. Mark the specific ball that was lost as "dead".

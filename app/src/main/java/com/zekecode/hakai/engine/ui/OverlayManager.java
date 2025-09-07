@@ -27,6 +27,9 @@ public class OverlayManager {
       case GAME_OVER:
         drawGameOverScreen(gc);
         break;
+      case LEVEL_CLEAR:
+        drawLevelClearScreen(gc);
+        break;
       default:
         // Do nothing for other states
         break;
@@ -56,6 +59,19 @@ public class OverlayManager {
     gc.setTextAlign(TextAlignment.CENTER);
     gc.setFill(Color.CRIMSON);
     gc.fillText("GAME OVER", screenWidth / 2, screenHeight / 2);
+    gc.restore();
+  }
+
+  private void drawLevelClearScreen(GraphicsContext gc) {
+    gc.setFill(Color.web("black", 0.75));
+    gc.fillRect(0, 0, screenWidth, screenHeight);
+
+    gc.save();
+    gc.setEffect(new DropShadow(20, Color.GREEN));
+    gc.setFont(overlayFont);
+    gc.setTextAlign(TextAlignment.CENTER);
+    gc.setFill(Color.LIMEGREEN);
+    gc.fillText("YOU WIN!", screenWidth / 2, screenHeight / 2);
     gc.restore();
   }
 }
