@@ -1,39 +1,47 @@
-levelName: "Default Level"
+levelName: "Brick Fortress"
 levelNumber: 1
-background: "backgrounds/space_loop.gif"
+background: "backgrounds/black_background.png"
 
 layout:
-  # The default size for all bricks in this level.
-  defaultBrickWidth: 75
+  defaultBrickWidth: 60
   defaultBrickHeight: 20
-
-  # Grid properties
   padding: 5
-  offsetTop: 60
-
-  # A classic, multi-layered wall.
+  offsetTop: 50
   pattern:
-    - "RRRRRRRRRR"
-    - "RRRRRRRRRR"
-    - "OOOOOOOOOO"
-    - "OOOOOOOOOO"
-    - "GGGGGGGGGG"
-    - "GGGGGGGGGG"
-    - "YYYYYYYYYY"
-    - "YYYYYYYYYY"
+    - "PSPM.PMSPS"
+    - "NNNNNNNNNN"
+    - "NPNPNSNPNP"
+    - "NNNSNNNSNN"
+    - "NNPNNNNPNN"
+    - "MNNNPSNNNM"
+    - "N.P.N.N.P.N"
+    - "NNNNNNNNNN"
+    - ".S.S.P.S.S."
 
-# Define the properties for each brick type used in the pattern.
-# Notice none of these need to override the width or height.
 brickTypes:
-  'R':
-    color: "#C0392B" # Pomegranate Red
+  # Normal Brick
+  N:
+    color: "#7F8C8D" # Gray
     hp: 1
-  'O':
-    color: "#E67E22" # Carrot Orange
+
+  # Power-up Bricks
+  P:
+    color: "#9B59B6" # Purple (Paddle Expand)
     hp: 1
-  'G':
-    color: "#27AE60" # Nephritis Green
+    powerUp:
+      type: "PADDLE_EXPAND"
+      trigger: "ON_COLLECT"
+  S:
+    color: "#BDC3C7" # Silver (Spawn Ball)
     hp: 1
-  'Y':
-    color: "#F1C40F" # Sunflower Yellow
+    powerUp:
+      type: "SPAWN_BALL"
+      trigger: "INSTANT"
+
+  # Malus Brick
+  M:
+    color: "#C0392B" # Dark Red (Paddle Slow)
     hp: 1
+    powerUp:
+      type: "PADDLE_SLOW"
+      trigger: "ON_COLLECT"

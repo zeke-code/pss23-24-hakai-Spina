@@ -1,34 +1,47 @@
-levelName: "Arrowhead"
-levelNumber: 1
-background: "backgrounds/space_loop.gif"
+levelName: "Pixel Heart"
+levelNumber: 2
+background: "backgrounds/black_background.png"
 
 layout:
-  # The default size for all bricks in this level.
-  defaultBrickWidth: 75
-  defaultBrickHeight: 20
-
-  # Grid properties
+  defaultBrickWidth: 50
+  defaultBrickHeight: 25
   padding: 5
   offsetTop: 60
-
   pattern:
-    - "..SS..SS.."
-    - ".SPPPPSPS."
-    - ".SBBBBBBBS."
-    - "..BBBBBB.."
-    - "...BBBB..."
-    - "....BB...."
+    - "..NN...NN.."
+    - ".NPPN.NPPN."
+    - "MNPNP.NPNPM"
+    - ".NPNPNNNPNP."
+    - ".NPNPNSNPNP."
+    - "..NPNSSNPN.."
+    - "...NPSPN..."
+    - "....NPN...."
+    - ".....S....."
 
 brickTypes:
-  'S':
-    color: "#BDC3C7" # Silver
+  # Normal Brick
+  N:
+    color: "#E74C3C" # Bright Red
     hp: 1
 
-  'B':
-    color: "#3498DB" # Peter River Blue
+  # Power-up Bricks
+  P:
+    color: "#F1C40F" # Yellow (Paddle Expand)
     hp: 1
+    powerUp:
+      type: "PADDLE_EXPAND"
+      trigger: "ON_COLLECT"
+  S:
+    color: "#ECF0F1" # White (Spawn Ball)
+    hp: 1
+    powerUp:
+      type: "SPAWN_BALL"
+      trigger: "INSTANT"
 
-  'P':
-    color: "#9B59B6" # Amethyst Purple
+  # Malus Brick
+  M:
+    color: "#C0392B" # Dark Red (Paddle Slow)
     hp: 1
-    powerUp: "PADDLE_SIZE_INCREASE"
+    powerUp:
+      type: "PADDLE_SLOW"
+      trigger: "ON_COLLECT"

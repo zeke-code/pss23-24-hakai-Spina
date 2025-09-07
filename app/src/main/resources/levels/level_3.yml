@@ -1,29 +1,35 @@
-levelName: "Gamble Gauntlet"
-levelNumber: 6
-background: "backgrounds/space_loop.gif"
+levelName: "Chaos Corridor"
+levelNumber: 3
+background: "backgrounds/black_background.png"
 
 layout:
-  defaultBrickWidth: 60
+  defaultBrickWidth: 50
   defaultBrickHeight: 20
   padding: 5
   offsetTop: 60
   pattern:
-    - ".S.N.P.N.S."
-    - "..N.M.M.N.."
-    - ".P.M.N.M.P."
-    - "..N.M.M.N.."
-    - ".S.N.P.N.S."
-
+    - "..S..P..P..S.."
+    - ".NN.MNNNNM.NN."
+    - "P.NN.S..S.NN.P"
+    - "..NN.P..P.NN.."
+    - "...N.M..M.N..."
+    - "....N.SS.N...."
+    - ".....NNNN....."
+    - "......PP......"
+    - ".......S......."
 
 brickTypes:
   # Normal Brick
   N:
-    color: "#7F8C8D" # Gray
-    hp: 2
+    color: "#2980B9" # Blue
+    hp: 1
+    powerUp:
+      type: "SPAWN_BALL"
+      trigger: "INSTANT"
 
   # Power-up Bricks
   P:
-    color: "#9B59B6" # Purple (Paddle Expand)
+    color: "#2ECC71" # Green (Paddle Expand)
     hp: 1
     powerUp:
       type: "PADDLE_EXPAND"
