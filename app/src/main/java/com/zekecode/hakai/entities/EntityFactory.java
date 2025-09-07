@@ -40,6 +40,7 @@ public class EntityFactory {
     player.addComponent(new RenderComponent(100, 20, Color.WHITE));
     player.addComponent(new CollidableComponent());
     player.addComponent(new InputComponent()); // This marks the entity as player-controlled
+    player.addComponent(new MovableComponent(400.0)); // Add the new component with default speed
 
     return player;
   }

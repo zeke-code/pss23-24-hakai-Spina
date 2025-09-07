@@ -14,18 +14,30 @@ import javafx.scene.paint.Stop;
 
 public class PowerUpRenderer implements EntityRenderer {
 
-  // A glowing effect to make the star pop from the background
-  private static final DropShadow glow = new DropShadow(15, Color.GOLD);
+  private static final DropShadow GOOD_GLOW = new DropShadow(15, Color.GOLD);
+  private static final DropShadow BAD_GLOW = new DropShadow(15, Color.RED);
 
   @Override
   public void render(GraphicsContext gc, Entity entity) {
     PositionComponent pos = entity.getComponent(PositionComponent.class).get();
     RenderComponent render = entity.getComponent(RenderComponent.class).get();
+    PowerUpDropComponent drop = entity.getComponent(PowerUpDropComponent.class).get();
 
     gc.save();
-    gc.setEffect(glow);
 
-    // Create a golden-looking gradient for the star's fill
+    // Check the effect type to decide how to render it
+    if ("PADDLE_SLOW".equals(drop.effectType)) {
+      renderMalus(gc, pos, render);
+    } else {
+      renderPowerUp(gc, pos, render);
+    }
+
+    gc.restore();
+  }
+
+  private void renderPowerUp(GraphicsContext gc, PositionComponent pos, RenderComponent render) {
+    gc.setEffect(GOOD_GLOW);
+
     LinearGradient goldGradient =
         new LinearGradient(
             pos.x,
@@ -39,19 +51,29 @@ public class PowerUpRenderer implements EntityRenderer {
 
     gc.setFill(goldGradient);
     drawStar(gc, pos.x, pos.y, render.width, render.height);
-
-    gc.restore();
   }
 
-  /**
-   * Calculates the vertices of a 5-pointed star and draws it as a polygon.
-   *
-   * @param gc The graphics context to draw on.
-   * @param x The top-left x coordinate of the bounding box.
-   * @param y The top-left y coordinate of the bounding box.
-   * @param width The width of the bounding box.
-   * @param height The height of the bounding box.
-   */
+  private void renderMalus(GraphicsContext gc, PositionComponent pos, RenderComponent render) {
+    gc.setEffect(BAD_GLOW);
+
+    LinearGradient redGradient =
+        new LinearGradient(
+            pos.x,
+            pos.y,
+            pos.x + render.width,
+            pos.y + render.height,
+            false,
+            CycleMethod.NO_CYCLE,
+            new Stop(0, Color.CRIMSON),
+            new Stop(1, Color.DARKRED));
+
+    gc.setFill(redGradient);
+    // Render as a simple, downward-pointing triangle
+    double[] xPoints = {pos.x, pos.x + render.width, pos.x + render.width / 2};
+    double[] yPoints = {pos.y, pos.y, pos.y + render.height};
+    gc.fillPolygon(xPoints, yPoints, 3);
+  }
+
   private void drawStar(GraphicsContext gc, double x, double y, double width, double height) {
     double centerX = x + width / 2;
     double centerY = y + height / 2;

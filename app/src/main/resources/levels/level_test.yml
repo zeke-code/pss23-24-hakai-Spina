@@ -1,30 +1,25 @@
-levelName: "Power-up Valley (yahoo xdxd)"
-levelNumber: 5
+levelName: "Gamble Gauntlet"
+levelNumber: 6
 background: "backgrounds/space_loop.gif"
 
 layout:
-  defaultBrickWidth: 45
-  defaultBrickHeight: 18
-  padding: 4
-  offsetTop: 40
+  defaultBrickWidth: 60
+  defaultBrickHeight: 20
+  padding: 5
+  offsetTop: 60
   pattern:
-    - "S.P.S.P.S.P.S.P.S.P.S.P.S"
-    - "P.S.P.S.P.S.P.S.P.S.P.S.P"
-    - "S.P.S.P.S.P.S.P.S.P.S.P.S"
-    - "P.S.P.S.P.S.P.S.P.S.P.S.P"
-    - "S.P.S.P.S.P.S.P.S.P.S.P.S"
-    - "P.S.P.S.N.N.N.N.N.S.P.S.P"
-    - "S.P.S.N.P.S.P.S.P.N.S.P.S"
-    - "P.S.N.P.S.P.S.P.S.P.N.S.P"
-    - "S.N.P.S.P.S.P.S.P.S.P.N.S"
-    - "N.P.S.P.S.P.S.P.S.P.S.P.N"
+    - ".S.N.P.N.S."
+    - "..N.M.M.N.."
+    - ".P.M.N.M.P."
+    - "..N.M.M.N.."
+    - ".S.N.P.N.S."
 
 
 brickTypes:
   # Normal Brick
   N:
     color: "#7F8C8D" # Gray
-    hp: 1
+    hp: 2
 
   # Power-up Bricks
   P:
@@ -39,3 +34,11 @@ brickTypes:
     powerUp:
       type: "SPAWN_BALL"
       trigger: "INSTANT"
+
+  # Malus Brick
+  M:
+    color: "#C0392B" # Dark Red (Paddle Slow)
+    hp: 1
+    powerUp:
+      type: "PADDLE_SLOW"
+      trigger: "ON_COLLECT"

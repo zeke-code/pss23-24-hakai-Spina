@@ -1,6 +1,7 @@
 package com.zekecode.hakai.systems;
 
 import com.zekecode.hakai.components.InputComponent;
+import com.zekecode.hakai.components.MovableComponent;
 import com.zekecode.hakai.components.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
@@ -14,7 +15,6 @@ import javafx.scene.input.KeyCode;
  */
 public class MovementSystem extends GameSystem {
   private final InputManager inputManager;
-  private static final double PADDLE_SPEED = 400.0; // pixels per second
 
   public MovementSystem(InputManager inputManager) {
     this.inputManager = inputManager;
@@ -23,28 +23,32 @@ public class MovementSystem extends GameSystem {
   @Override
   public void update(List<Entity> entities, double deltaTime) {
     for (Entity entity : entities) {
-      // We only care about entities that are player-controlled.
+      // We only care about entities that are player-controlled and movable.
       if (entity.hasComponent(InputComponent.class)) {
 
-        // The code inside the lambda will only execute if the entity has a VelocityComponent.
         entity
             .getComponent(VelocityComponent.class)
             .ifPresent(
-                velocity -> {
+                velocity ->
+                    entity
+                        .getComponent(MovableComponent.class)
+                        .ifPresent(
+                            movable -> {
+                              double currentSpeed = movable.speed;
 
-                  // Reset horizontal velocity to 0 by default
-                  velocity.x = 0;
+                              // Reset horizontal velocity to 0 by default
+                              velocity.x = 0;
 
-                  // Apply velocity based on input
-                  if (inputManager.isKeyPressed(KeyCode.LEFT)
-                      || inputManager.isKeyPressed(KeyCode.A)) {
-                    velocity.x = -PADDLE_SPEED;
-                  }
-                  if (inputManager.isKeyPressed(KeyCode.RIGHT)
-                      || inputManager.isKeyPressed(KeyCode.D)) {
-                    velocity.x = PADDLE_SPEED;
-                  }
-                });
+                              // Apply velocity based on input
+                              if (inputManager.isKeyPressed(KeyCode.LEFT)
+                                  || inputManager.isKeyPressed(KeyCode.A)) {
+                                velocity.x = -currentSpeed;
+                              }
+                              if (inputManager.isKeyPressed(KeyCode.RIGHT)
+                                  || inputManager.isKeyPressed(KeyCode.D)) {
+                                velocity.x = currentSpeed;
+                              }
+                            }));
       }
     }
   }
