@@ -1,4 +1,4 @@
-package com.zekecode.hakai.engine.ui;
+package com.zekecode.hakai.ui;
 
 import com.google.common.eventbus.Subscribe;
 import com.zekecode.hakai.events.LivesChangedEvent;

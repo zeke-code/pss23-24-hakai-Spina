@@ -1,4 +1,4 @@
-package com.zekecode.hakai.engine.ui;
+package com.zekecode.hakai.ui;
 
 import com.zekecode.hakai.engine.game.GameState;
 import javafx.scene.canvas.GraphicsContext;

@@ -1,0 +1,47 @@
+levelName: "Hyperspace Anomaly"
+levelNumber: 4
+background: "backgrounds/space_loop.gif"
+
+layout:
+  defaultBrickWidth: 45
+  defaultBrickHeight: 20
+  padding: 5
+  offsetTop: 50
+  pattern:
+    - "...S.....P...S.."
+    - "..P.N.S...M.N..."
+    - ".S..P.N.S.P..S.."
+    - "P.N.S.M..N..P.N."
+    - "..S..P..S.S...S."
+    - "...M..P.N.P.N..."
+    - "..P.S...S..M..P."
+    - "S...N.P...N.S..."
+    - "..P.....S.....S.."
+
+brickTypes:
+  # Normal Brick (Deep Purple)
+  N:
+    color: "#8E44AD"
+    hp: 1
+
+  # Power-up Bricks
+  P:
+    color: "#1ABC9C" # Vibrant Cyan (Paddle Expand)
+    hp: 1
+    powerUp:
+      type: "PADDLE_EXPAND"
+      trigger: "ON_COLLECT"
+  S:
+    color: "#F02390" # Bright Magenta (Spawn Ball)
+    hp: 1
+    powerUp:
+      type: "SPAWN_BALL"
+      trigger: "INSTANT"
+
+  # Malus Brick
+  M:
+    color: "#A8E610" # Jarring Lime Green (Paddle Slow)
+    hp: 1
+    powerUp:
+      type: "PADDLE_SLOW"
+      trigger: "ON_COLLECT"

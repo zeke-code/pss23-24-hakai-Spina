@@ -1,4 +1,4 @@
-package com.zekecode.hakai.engine.ui;
+package com.zekecode.hakai.ui;
 
 import java.io.InputStream;
 import javafx.scene.canvas.GraphicsContext;

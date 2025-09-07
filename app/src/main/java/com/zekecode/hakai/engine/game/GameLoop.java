@@ -1,7 +1,7 @@
 package com.zekecode.hakai.engine.game;
 
-import com.zekecode.hakai.engine.ui.BackgroundManager;
-import com.zekecode.hakai.engine.ui.UIManager;
+import com.zekecode.hakai.ui.BackgroundManager;
+import com.zekecode.hakai.ui.UIManager;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 
