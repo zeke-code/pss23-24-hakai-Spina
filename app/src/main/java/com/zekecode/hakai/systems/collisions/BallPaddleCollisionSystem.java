@@ -2,16 +2,16 @@ package com.zekecode.hakai.systems.collisions;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.zekecode.hakai.components.BallComponent;
 import com.zekecode.hakai.components.InputComponent;
-import com.zekecode.hakai.components.PositionComponent;
-import com.zekecode.hakai.components.RenderComponent;
-import com.zekecode.hakai.components.VelocityComponent;
+import com.zekecode.hakai.components.ball.BallComponent;
+import com.zekecode.hakai.components.graphics.RenderComponent;
+import com.zekecode.hakai.components.physics.PositionComponent;
+import com.zekecode.hakai.components.physics.VelocityComponent;
+import com.zekecode.hakai.config.GameConfig;
 import com.zekecode.hakai.core.Component;
 import com.zekecode.hakai.core.Entity;
-import com.zekecode.hakai.engine.events.CollisionEvent;
-import com.zekecode.hakai.engine.events.PaddleHitEvent;
-import com.zekecode.hakai.utils.GameConfig;
+import com.zekecode.hakai.events.CollisionEvent;
+import com.zekecode.hakai.events.PaddleHitEvent;
 
 /** Handles the specific logic for when a Ball collides with the player's Paddle. */
 public class BallPaddleCollisionSystem extends BallCollisionHandlerSystem {

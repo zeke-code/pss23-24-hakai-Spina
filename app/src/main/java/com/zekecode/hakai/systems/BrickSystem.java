@@ -2,12 +2,12 @@ package com.zekecode.hakai.systems;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.zekecode.hakai.components.BrickComponent;
-import com.zekecode.hakai.components.DeadComponent;
+import com.zekecode.hakai.components.entities.BrickComponent;
+import com.zekecode.hakai.components.entities.DeadComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
-import com.zekecode.hakai.engine.events.BrickDestroyedEvent;
-import com.zekecode.hakai.engine.events.BrickHitEvent;
+import com.zekecode.hakai.events.brick.BrickDestroyedEvent;
+import com.zekecode.hakai.events.brick.BrickHitEvent;
 import java.util.List;
 
 public class BrickSystem extends GameSystem {

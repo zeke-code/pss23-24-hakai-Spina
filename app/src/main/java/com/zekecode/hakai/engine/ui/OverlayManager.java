@@ -1,6 +1,6 @@
 package com.zekecode.hakai.engine.ui;
 
-import com.zekecode.hakai.engine.enums.GameState;
+import com.zekecode.hakai.engine.game.GameState;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.paint.Color;

@@ -1,17 +1,17 @@
 package com.zekecode.hakai.systems.powerups;
 
 import com.google.common.eventbus.Subscribe;
-import com.zekecode.hakai.components.ActiveEffectComponent;
 import com.zekecode.hakai.components.InputComponent;
-import com.zekecode.hakai.components.PositionComponent;
-import com.zekecode.hakai.components.PowerUpComponent;
+import com.zekecode.hakai.components.physics.PositionComponent;
+import com.zekecode.hakai.components.powerups.ActiveEffectComponent;
+import com.zekecode.hakai.components.powerups.PowerUpComponent;
+import com.zekecode.hakai.config.data.PowerUpData;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.engine.data.PowerUpData;
-import com.zekecode.hakai.engine.events.BrickDestroyedEvent;
-import com.zekecode.hakai.engine.events.PowerUpCollectedEvent;
 import com.zekecode.hakai.entities.EntityFactory;
+import com.zekecode.hakai.events.brick.BrickDestroyedEvent;
+import com.zekecode.hakai.events.powerup.PowerUpCollectedEvent;
 import com.zekecode.hakai.powerups.EffectRegistry;
 import java.util.List;
 import java.util.Optional;

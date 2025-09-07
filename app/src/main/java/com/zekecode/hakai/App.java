@@ -1,8 +1,7 @@
 package com.zekecode.hakai;
 
-import com.zekecode.hakai.engine.Game;
-import com.zekecode.hakai.utils.GameBuilder;
-import com.zekecode.hakai.utils.GameConfig;
+import com.zekecode.hakai.config.GameConfig;
+import com.zekecode.hakai.engine.game.Game;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;

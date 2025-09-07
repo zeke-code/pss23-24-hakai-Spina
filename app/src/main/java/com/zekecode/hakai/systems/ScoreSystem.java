@@ -2,13 +2,13 @@ package com.zekecode.hakai.systems;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.zekecode.hakai.components.ScoreComponent;
+import com.zekecode.hakai.components.entities.ScoreComponent;
+import com.zekecode.hakai.config.GameConfig;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.engine.events.BrickDestroyedEvent;
-import com.zekecode.hakai.engine.events.ScoreChangedEvent;
-import com.zekecode.hakai.utils.GameConfig;
+import com.zekecode.hakai.events.ScoreChangedEvent;
+import com.zekecode.hakai.events.brick.BrickDestroyedEvent;
 import java.util.List;
 import java.util.Optional;
 

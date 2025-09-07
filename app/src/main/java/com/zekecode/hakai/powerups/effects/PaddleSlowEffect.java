@@ -1,7 +1,7 @@
 package com.zekecode.hakai.powerups.effects;
 
-import com.zekecode.hakai.components.MovableComponent;
-import com.zekecode.hakai.components.PaddleSlowComponent;
+import com.zekecode.hakai.components.paddle.PaddleSlowComponent;
+import com.zekecode.hakai.components.physics.MovableComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.powerups.Effect;
 import com.zekecode.hakai.powerups.EffectId;

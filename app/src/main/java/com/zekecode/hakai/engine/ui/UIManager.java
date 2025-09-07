@@ -1,7 +1,7 @@
 package com.zekecode.hakai.engine.ui;
 
 import com.google.common.eventbus.EventBus;
-import com.zekecode.hakai.engine.enums.GameState;
+import com.zekecode.hakai.engine.game.GameState;
 import javafx.scene.canvas.GraphicsContext;
 
 /**

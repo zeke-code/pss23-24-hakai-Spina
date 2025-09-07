@@ -4,10 +4,15 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.zekecode.hakai.components.*;
+import com.zekecode.hakai.components.ball.BallComponent;
+import com.zekecode.hakai.components.ball.BallStuckToPaddleComponent;
+import com.zekecode.hakai.components.graphics.RenderComponent;
+import com.zekecode.hakai.components.physics.PositionComponent;
+import com.zekecode.hakai.components.physics.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
-import com.zekecode.hakai.engine.events.ResetBallEvent;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.entities.EntityFactory;
+import com.zekecode.hakai.events.ball.ResetBallEvent;
 import java.util.List;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.BeforeEach;

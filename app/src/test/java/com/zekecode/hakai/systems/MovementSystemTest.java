@@ -5,11 +5,11 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 import com.zekecode.hakai.components.InputComponent;
-import com.zekecode.hakai.components.MovableComponent;
-import com.zekecode.hakai.components.VelocityComponent;
+import com.zekecode.hakai.components.physics.MovableComponent;
+import com.zekecode.hakai.components.physics.VelocityComponent;
+import com.zekecode.hakai.config.GameConfig;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.engine.input.InputManager;
-import com.zekecode.hakai.utils.GameConfig;
 import java.util.List;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.BeforeEach;

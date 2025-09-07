@@ -1,8 +1,8 @@
 package com.zekecode.hakai.systems;
 
 import com.zekecode.hakai.components.InputComponent;
-import com.zekecode.hakai.components.MovableComponent;
-import com.zekecode.hakai.components.VelocityComponent;
+import com.zekecode.hakai.components.physics.MovableComponent;
+import com.zekecode.hakai.components.physics.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.engine.input.InputManager;

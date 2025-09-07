@@ -2,12 +2,12 @@ package com.zekecode.hakai.systems.collisions;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.zekecode.hakai.components.BallComponent;
-import com.zekecode.hakai.components.BrickComponent;
+import com.zekecode.hakai.components.ball.BallComponent;
+import com.zekecode.hakai.components.entities.BrickComponent;
 import com.zekecode.hakai.core.Component;
 import com.zekecode.hakai.core.Entity;
-import com.zekecode.hakai.engine.events.BrickHitEvent;
-import com.zekecode.hakai.engine.events.CollisionEvent;
+import com.zekecode.hakai.events.CollisionEvent;
+import com.zekecode.hakai.events.brick.BrickHitEvent;
 
 /** Handles the specific logic for when a Ball collides with a Brick. */
 public class BallBrickCollisionSystem extends BallCollisionHandlerSystem {

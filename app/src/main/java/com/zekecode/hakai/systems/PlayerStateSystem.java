@@ -2,16 +2,16 @@ package com.zekecode.hakai.systems;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.zekecode.hakai.components.BallComponent;
-import com.zekecode.hakai.components.DeadComponent;
-import com.zekecode.hakai.components.PlayerStateComponent;
+import com.zekecode.hakai.components.ball.BallComponent;
+import com.zekecode.hakai.components.entities.DeadComponent;
+import com.zekecode.hakai.components.entities.PlayerStateComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.engine.events.BallLostEvent;
-import com.zekecode.hakai.engine.events.GameOverEvent;
-import com.zekecode.hakai.engine.events.LivesChangedEvent;
-import com.zekecode.hakai.engine.events.ResetBallEvent;
+import com.zekecode.hakai.events.GameOverEvent;
+import com.zekecode.hakai.events.LivesChangedEvent;
+import com.zekecode.hakai.events.ball.BallLostEvent;
+import com.zekecode.hakai.events.ball.ResetBallEvent;
 import java.util.List;
 import java.util.Optional;
 

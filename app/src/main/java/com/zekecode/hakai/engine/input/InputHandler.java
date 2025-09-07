@@ -1,6 +1,6 @@
 package com.zekecode.hakai.engine.input;
 
-import com.zekecode.hakai.engine.GameManager;
+import com.zekecode.hakai.engine.game.GameManager;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 

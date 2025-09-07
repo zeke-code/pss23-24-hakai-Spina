@@ -1,6 +1,6 @@
 package com.zekecode.hakai.core;
 
-import com.zekecode.hakai.components.DeadComponent;
+import com.zekecode.hakai.components.entities.DeadComponent;
 import java.util.ArrayList;
 import java.util.List;
 

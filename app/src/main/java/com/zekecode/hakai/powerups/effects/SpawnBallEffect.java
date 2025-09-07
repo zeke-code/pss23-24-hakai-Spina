@@ -1,6 +1,6 @@
 package com.zekecode.hakai.powerups.effects;
 
-import com.zekecode.hakai.components.PositionComponent;
+import com.zekecode.hakai.components.physics.PositionComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.powerups.Effect;

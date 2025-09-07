@@ -6,9 +6,13 @@ import static org.mockito.Mockito.verify;
 
 import com.google.common.eventbus.EventBus;
 import com.zekecode.hakai.components.*;
+import com.zekecode.hakai.components.ball.BallComponent;
+import com.zekecode.hakai.components.graphics.RenderComponent;
+import com.zekecode.hakai.components.physics.PositionComponent;
+import com.zekecode.hakai.components.physics.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
-import com.zekecode.hakai.engine.events.CollisionEvent;
-import com.zekecode.hakai.engine.events.PaddleHitEvent;
+import com.zekecode.hakai.events.CollisionEvent;
+import com.zekecode.hakai.events.PaddleHitEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

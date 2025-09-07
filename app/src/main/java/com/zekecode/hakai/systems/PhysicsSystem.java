@@ -1,14 +1,14 @@
 package com.zekecode.hakai.systems;
 
 import com.google.common.eventbus.EventBus;
-import com.zekecode.hakai.components.BallComponent;
 import com.zekecode.hakai.components.InputComponent;
-import com.zekecode.hakai.components.PositionComponent;
-import com.zekecode.hakai.components.RenderComponent;
-import com.zekecode.hakai.components.VelocityComponent;
+import com.zekecode.hakai.components.ball.BallComponent;
+import com.zekecode.hakai.components.graphics.RenderComponent;
+import com.zekecode.hakai.components.physics.PositionComponent;
+import com.zekecode.hakai.components.physics.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
-import com.zekecode.hakai.engine.events.BallLostEvent;
+import com.zekecode.hakai.events.ball.BallLostEvent;
 import java.util.List;
 
 /**

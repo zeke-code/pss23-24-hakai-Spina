@@ -4,7 +4,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
-import com.zekecode.hakai.engine.data.PowerUpData;
+import com.zekecode.hakai.config.data.PowerUpData;
+import com.zekecode.hakai.engine.game.LevelManager;
 import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.powerups.PowerUpTrigger;
 import javafx.scene.paint.Color;

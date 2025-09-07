@@ -1,8 +1,8 @@
 package com.zekecode.hakai.systems.collisions;
 
-import com.zekecode.hakai.components.PositionComponent;
-import com.zekecode.hakai.components.RenderComponent;
-import com.zekecode.hakai.components.VelocityComponent;
+import com.zekecode.hakai.components.graphics.RenderComponent;
+import com.zekecode.hakai.components.physics.PositionComponent;
+import com.zekecode.hakai.components.physics.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import java.util.List;

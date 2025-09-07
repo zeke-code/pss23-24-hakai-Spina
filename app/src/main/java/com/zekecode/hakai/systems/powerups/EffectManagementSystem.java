@@ -1,6 +1,6 @@
 package com.zekecode.hakai.systems.powerups;
 
-import com.zekecode.hakai.components.ActiveEffectComponent;
+import com.zekecode.hakai.components.powerups.ActiveEffectComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import java.util.List;

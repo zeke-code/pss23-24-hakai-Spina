@@ -4,11 +4,11 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 import com.google.common.eventbus.EventBus;
-import com.zekecode.hakai.components.ScoreComponent;
+import com.zekecode.hakai.components.entities.ScoreComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.engine.events.BrickDestroyedEvent;
-import com.zekecode.hakai.engine.events.ScoreChangedEvent;
+import com.zekecode.hakai.events.ScoreChangedEvent;
+import com.zekecode.hakai.events.brick.BrickDestroyedEvent;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

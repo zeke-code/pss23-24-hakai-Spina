@@ -1,10 +1,22 @@
 package com.zekecode.hakai.entities;
 
 import com.zekecode.hakai.components.*;
+import com.zekecode.hakai.components.ball.BallComponent;
+import com.zekecode.hakai.components.ball.BallStuckToPaddleComponent;
+import com.zekecode.hakai.components.entities.BrickComponent;
+import com.zekecode.hakai.components.entities.PlayerStateComponent;
+import com.zekecode.hakai.components.entities.ScoreComponent;
+import com.zekecode.hakai.components.graphics.RenderComponent;
+import com.zekecode.hakai.components.physics.CollidableComponent;
+import com.zekecode.hakai.components.physics.MovableComponent;
+import com.zekecode.hakai.components.physics.PositionComponent;
+import com.zekecode.hakai.components.physics.VelocityComponent;
+import com.zekecode.hakai.components.powerups.PowerUpComponent;
+import com.zekecode.hakai.components.powerups.PowerUpDropComponent;
+import com.zekecode.hakai.config.GameConfig;
+import com.zekecode.hakai.config.data.PowerUpData;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.engine.data.PowerUpData;
-import com.zekecode.hakai.utils.GameConfig;
 import javafx.scene.paint.Color;
 
 /**

@@ -4,12 +4,13 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 import com.google.common.eventbus.EventBus;
-import com.zekecode.hakai.components.DeadComponent;
 import com.zekecode.hakai.components.InputComponent;
-import com.zekecode.hakai.components.PowerUpDropComponent;
+import com.zekecode.hakai.components.ball.BallComponent;
+import com.zekecode.hakai.components.entities.DeadComponent;
+import com.zekecode.hakai.components.powerups.PowerUpDropComponent;
 import com.zekecode.hakai.core.Entity;
-import com.zekecode.hakai.engine.events.CollisionEvent;
-import com.zekecode.hakai.engine.events.PowerUpCollectedEvent;
+import com.zekecode.hakai.events.CollisionEvent;
+import com.zekecode.hakai.events.powerup.PowerUpCollectedEvent;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -72,7 +73,7 @@ class PaddlePowerUpCollisionSystemTest {
     // ARRANGE
     // A ball cannot collect a power-up, only the paddle can.
     Entity ball = new Entity(3);
-    ball.addComponent(new com.zekecode.hakai.components.BallComponent());
+    ball.addComponent(new BallComponent());
     CollisionEvent event = new CollisionEvent(ball, powerUp);
 
     // ACT

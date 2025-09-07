@@ -1,7 +1,7 @@
 package com.zekecode.hakai.powerups.effects;
 
-import com.zekecode.hakai.components.PaddleStateComponent;
-import com.zekecode.hakai.components.RenderComponent;
+import com.zekecode.hakai.components.graphics.RenderComponent;
+import com.zekecode.hakai.components.paddle.PaddleStateComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.powerups.Effect;
 import com.zekecode.hakai.powerups.EffectId;

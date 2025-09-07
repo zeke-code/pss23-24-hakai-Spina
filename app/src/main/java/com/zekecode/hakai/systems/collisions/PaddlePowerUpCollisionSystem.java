@@ -2,14 +2,14 @@ package com.zekecode.hakai.systems.collisions;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import com.zekecode.hakai.components.DeadComponent;
 import com.zekecode.hakai.components.InputComponent;
-import com.zekecode.hakai.components.PowerUpDropComponent;
+import com.zekecode.hakai.components.entities.DeadComponent;
+import com.zekecode.hakai.components.powerups.PowerUpDropComponent;
 import com.zekecode.hakai.core.Component;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
-import com.zekecode.hakai.engine.events.CollisionEvent;
-import com.zekecode.hakai.engine.events.PowerUpCollectedEvent;
+import com.zekecode.hakai.events.CollisionEvent;
+import com.zekecode.hakai.events.powerup.PowerUpCollectedEvent;
 import java.util.List;
 
 /** Handles the specific collision logic between the player's paddle and a power-up drop. */

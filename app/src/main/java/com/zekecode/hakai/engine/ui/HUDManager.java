@@ -1,8 +1,8 @@
 package com.zekecode.hakai.engine.ui;
 
 import com.google.common.eventbus.Subscribe;
-import com.zekecode.hakai.engine.events.LivesChangedEvent;
-import com.zekecode.hakai.engine.events.ScoreChangedEvent;
+import com.zekecode.hakai.events.LivesChangedEvent;
+import com.zekecode.hakai.events.ScoreChangedEvent;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
