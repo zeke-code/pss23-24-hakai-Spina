@@ -8,6 +8,7 @@ import com.zekecode.hakai.engine.fx.BackgroundManager;
 import com.zekecode.hakai.engine.fx.sounds.SoundManager;
 import com.zekecode.hakai.engine.input.InputHandler;
 import com.zekecode.hakai.engine.input.InputManager;
+import com.zekecode.hakai.engine.ui.UIManager;
 import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.systems.*;
 import com.zekecode.hakai.systems.collisions.BallBrickCollisionSystem;
@@ -71,7 +72,7 @@ public class Game {
     PowerUpEffectSystem powerUpEffectSystem = new PowerUpEffectSystem();
 
     eventBus.register(gameManager);
-    eventBus.register(uiManager);
+    uiManager.registerEventHandlers(eventBus);
     eventBus.register(soundManager);
     eventBus.register(brickSystem);
     eventBus.register(scoreSystem);
