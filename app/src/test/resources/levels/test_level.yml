@@ -1,0 +1,21 @@
+levelName: "Test Level"
+levelNumber: 0
+background: "backgrounds/black_background.png"
+
+layout:
+  defaultBrickWidth: 60
+  defaultBrickHeight: 20
+  padding: 5
+  offsetTop: 50
+  pattern:
+    - "R."
+    - ".B"
+
+brickTypes:
+  R:
+    color: "#FF0000"
+    hp: 1
+    powerUp: "PADDLE_SIZE_INCREASE"
+  B:
+    color: "#0000FF"
+    hp: 2
