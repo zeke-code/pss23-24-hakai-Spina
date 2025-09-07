@@ -4,6 +4,7 @@ import com.zekecode.hakai.components.*;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.engine.data.PowerUpData;
+import com.zekecode.hakai.utils.GameConfig;
 import javafx.scene.paint.Color;
 
 /**
@@ -34,13 +35,14 @@ public class EntityFactory {
   public Entity createPlayer(double x, double y) {
     Entity player = world.createEntity();
 
-    // Add all the necessary components for the player paddle
     player.addComponent(new PositionComponent(x, y));
-    player.addComponent(new VelocityComponent(0, 0)); // Starts stationary
-    player.addComponent(new RenderComponent(100, 20, Color.WHITE));
+    player.addComponent(new VelocityComponent(0, 0));
+    player.addComponent(
+        new RenderComponent(
+            GameConfig.PADDLE_INITIAL_WIDTH, GameConfig.PADDLE_INITIAL_HEIGHT, Color.WHITE));
     player.addComponent(new CollidableComponent());
-    player.addComponent(new InputComponent()); // This marks the entity as player-controlled
-    player.addComponent(new MovableComponent(400.0)); // Add the new component with default speed
+    player.addComponent(new InputComponent());
+    player.addComponent(new MovableComponent(GameConfig.PADDLE_SPEED));
 
     return player;
   }
@@ -55,10 +57,12 @@ public class EntityFactory {
   public Entity createBall(double x, double y) {
     Entity ball = world.createEntity();
 
-    // Add all the necessary components for the ball
     ball.addComponent(new PositionComponent(x, y));
-    ball.addComponent(new VelocityComponent(200, 200)); // Initial velocity
-    ball.addComponent(new RenderComponent(15, 15, Color.WHITE));
+    ball.addComponent(
+        new VelocityComponent(
+            GameConfig.BALL_INITIAL_VELOCITY_X, GameConfig.BALL_INITIAL_VELOCITY_Y));
+    ball.addComponent(
+        new RenderComponent(GameConfig.BALL_WIDTH, GameConfig.BALL_HEIGHT, Color.WHITE));
     ball.addComponent(new BallComponent());
     ball.addComponent(new CollidableComponent());
     ball.addComponent(new BallStuckToPaddleComponent());
@@ -77,15 +81,17 @@ public class EntityFactory {
   public Entity createLaunchedBall(double x, double y) {
     Entity ball = world.createEntity();
 
-    // A random horizontal velocity makes the spawn more dynamic.
-    double randomVelX = (Math.random() - 0.5) * 250;
+    double randomVelX =
+        (Math.random() - 0.5)
+            * (GameConfig.BALL_INITIAL_VELOCITY_X * GameConfig.BALL_SPAWN_RANDOMNESS_FACTOR);
+    double launchSpeedY = Math.abs(GameConfig.BALL_LAUNCH_VELOCITY_Y);
 
     ball.addComponent(new PositionComponent(x, y));
-    ball.addComponent(new VelocityComponent(randomVelX, 250)); // Launch downwards
-    ball.addComponent(new RenderComponent(15, 15, Color.WHITE));
+    ball.addComponent(new VelocityComponent(randomVelX, launchSpeedY)); // Launch downwards
+    ball.addComponent(
+        new RenderComponent(GameConfig.BALL_WIDTH, GameConfig.BALL_HEIGHT, Color.WHITE));
     ball.addComponent(new BallComponent());
     ball.addComponent(new CollidableComponent());
-    // NOTE: We DO NOT add the BallStuckToPaddleComponent.
 
     return ball;
   }
@@ -135,8 +141,10 @@ public class EntityFactory {
   public Entity createPowerUpDrop(double x, double y, String effectType) {
     Entity drop = world.createEntity();
     drop.addComponent(new PositionComponent(x, y));
-    drop.addComponent(new VelocityComponent(0, 150)); // Move downwards
-    drop.addComponent(new RenderComponent(40, 15, Color.CYAN));
+    drop.addComponent(new VelocityComponent(0, GameConfig.POWERUP_DROP_SPEED));
+    drop.addComponent(
+        new RenderComponent(
+            GameConfig.POWERUP_DROP_WIDTH, GameConfig.POWERUP_DROP_HEIGHT, Color.CYAN));
     drop.addComponent(new PowerUpDropComponent(effectType));
     drop.addComponent(new CollidableComponent());
     return drop;
@@ -149,7 +157,7 @@ public class EntityFactory {
    */
   public Entity createPlayerState() {
     Entity gameState = world.createEntity();
-    gameState.addComponent(new PlayerStateComponent(3));
+    gameState.addComponent(new PlayerStateComponent(GameConfig.PLAYER_STARTING_LIVES));
     gameState.addComponent(new ScoreComponent());
     return gameState;
   }

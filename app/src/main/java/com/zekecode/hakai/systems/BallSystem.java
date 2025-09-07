@@ -7,6 +7,7 @@ import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.engine.events.ResetBallEvent;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.entities.EntityFactory;
+import com.zekecode.hakai.utils.GameConfig;
 import java.util.List;
 import java.util.Optional;
 import javafx.scene.input.KeyCode;
@@ -34,7 +35,10 @@ public class BallSystem extends GameSystem {
     // The factory creates a new ball with the BallStuckToPaddleComponent already on it.
     // The exact coordinates don't matter, as the update() loop will snap it to
     // the paddle on the very next frame.
-    entityFactory.createBall(800 / 2.0 - 7.5, 600 / 2.0);
+    // We calculate the initial position here using constants for clarity.
+    double ballX = (GameConfig.SCREEN_WIDTH / 2.0) - (GameConfig.BALL_WIDTH / 2.0);
+    double ballY = GameConfig.SCREEN_HEIGHT / 2.0;
+    entityFactory.createBall(ballX, ballY);
   }
 
   @Override
@@ -88,8 +92,8 @@ public class BallSystem extends GameSystem {
       ball.getComponent(VelocityComponent.class)
           .ifPresent(
               velocity -> {
-                velocity.x = 50; // A slight angle
-                velocity.y = -350; // Launch upwards
+                velocity.x = GameConfig.BALL_LAUNCH_VELOCITY_X; // A slight angle
+                velocity.y = GameConfig.BALL_LAUNCH_VELOCITY_Y; // Launch upwards
               });
     }
   }

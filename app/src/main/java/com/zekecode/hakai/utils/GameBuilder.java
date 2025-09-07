@@ -1,8 +1,11 @@
-package com.zekecode.hakai;
+package com.zekecode.hakai.utils;
 
 import com.google.common.eventbus.EventBus;
 import com.zekecode.hakai.core.World;
-import com.zekecode.hakai.engine.*;
+import com.zekecode.hakai.engine.Game;
+import com.zekecode.hakai.engine.GameLoop;
+import com.zekecode.hakai.engine.GameManager;
+import com.zekecode.hakai.engine.LevelManager;
 import com.zekecode.hakai.engine.data.LevelData;
 import com.zekecode.hakai.engine.fx.BackgroundManager;
 import com.zekecode.hakai.engine.fx.sounds.SoundManager;
@@ -26,42 +29,76 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 
 /**
- * The central orchestrator for the entire game. This class creates, initializes, and manages all
- * major game components.
+ * A builder class responsible for the entire setup of the game. It creates all managers, systems,
+ * and entities, and wires them together, effectively acting as the Composition Root of the
+ * application.
  */
-public class Game {
+public class GameBuilder {
 
-  private final GraphicsContext gc;
-  private final Scene scene;
-
-  private GameLoop gameLoop;
-  private BackgroundManager backgroundManager;
-
-  public Game(GraphicsContext gc, Scene scene) {
-    this.gc = gc;
-    this.scene = scene;
-  }
-
-  /**
-   * Initializes all game systems, loads the level, and wires everything together. This is the
-   * "Composition Root" of the game engine.
-   */
-  public void initialize() {
+  public Game build(GraphicsContext gc, Scene scene) {
     // --- 1. CREATE CORE INFRASTRUCTURE ---
     EventBus eventBus = new EventBus();
     World world = new World();
     EntityFactory entityFactory = new EntityFactory(world);
     InputManager inputManager = new InputManager();
-    UIManager uiManager = new UIManager(800, 600);
+    UIManager uiManager = new UIManager(GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT);
     SoundManager soundManager = new SoundManager();
     List<EntityRenderer> renderers = RendererFactory.createRenderers();
     EffectRegistry effectRegistry = new EffectRegistry(entityFactory);
-
-    // --- 2. CREATE GAME LOGIC & MANAGER ---
     GameManager gameManager = new GameManager(world);
     LevelManager levelManager = new LevelManager(entityFactory);
 
-    // --- 3. CREATE SYSTEMS AND REGISTER LISTENERS ---
+    // --- 2. CREATE AND CONFIGURE ALL GAME SYSTEMS & LISTENERS ---
+    createAndRegisterSystems(
+        eventBus,
+        world,
+        gc,
+        inputManager,
+        entityFactory,
+        effectRegistry,
+        gameManager,
+        uiManager,
+        soundManager,
+        renderers);
+
+    // --- 3. SETUP INPUT HANDLING ---
+    new InputHandler(inputManager, gameManager).attach(scene);
+
+    // --- 4. LOAD LEVEL AND CREATE INITIAL ENTITIES ---
+    LevelData level = levelManager.loadAndBuildLevel("level_test.yml");
+    BackgroundManager backgroundManager =
+        new BackgroundManager(level.background, GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT);
+
+    // Calculate initial positions using GameConfig for clarity and maintainability
+    double playerX = (GameConfig.SCREEN_WIDTH / 2.0) - (GameConfig.PADDLE_INITIAL_WIDTH / 2.0);
+    double playerY = GameConfig.SCREEN_HEIGHT - GameConfig.PADDLE_Y_OFFSET;
+    double ballX = (GameConfig.SCREEN_WIDTH / 2.0) - (GameConfig.BALL_WIDTH / 2.0);
+    double ballY = GameConfig.SCREEN_HEIGHT / 2.0;
+
+    entityFactory.createPlayerState();
+    entityFactory.createPlayer(playerX, playerY);
+    entityFactory.createBall(ballX, ballY);
+
+    // --- 5. CREATE THE GAME LOOP AND THE FINAL GAME OBJECT ---
+    GameLoop gameLoop = new GameLoop(gameManager, uiManager, backgroundManager, gc);
+
+    // Return the fully constructed and ready-to-run game instance
+    return new Game(gameLoop);
+  }
+
+  /** A helper method to encapsulate the creation, registration, and wiring of all game systems. */
+  private void createAndRegisterSystems(
+      EventBus eventBus,
+      World world,
+      GraphicsContext gc,
+      InputManager inputManager,
+      EntityFactory entityFactory,
+      EffectRegistry effectRegistry,
+      GameManager gameManager,
+      UIManager uiManager,
+      SoundManager soundManager,
+      List<EntityRenderer> renderers) {
+    // --- CREATE SYSTEMS ---
     BrickSystem brickSystem = new BrickSystem(eventBus);
     ScoreSystem scoreSystem = new ScoreSystem(world, eventBus);
     PlayerStateSystem playerStateSystem = new PlayerStateSystem(world, eventBus);
@@ -72,6 +109,7 @@ public class Game {
         new PaddlePowerUpCollisionSystem(eventBus);
     PowerUpSystem powerUpSystem = new PowerUpSystem(world, entityFactory, effectRegistry);
 
+    // --- REGISTER EVENT LISTENERS ---
     eventBus.register(gameManager);
     uiManager.registerEventHandlers(eventBus);
     eventBus.register(soundManager);
@@ -80,48 +118,20 @@ public class Game {
     eventBus.register(playerStateSystem);
     eventBus.register(ballSystem);
     eventBus.register(ballPaddleCollisionSystem);
-    eventBus.register((ballBrickCollisionSystem));
+    eventBus.register(ballBrickCollisionSystem);
     eventBus.register(paddlePowerUpCollisionSystem);
     eventBus.register(powerUpSystem);
 
+    // --- ADD SYSTEMS TO THE WORLD'S UPDATE LOOP ---
     world.addSystem(new RenderSystem(gc, renderers));
     world.addSystem(new MovementSystem(inputManager));
     world.addSystem(new CollisionSystem(eventBus));
-    world.addSystem(new PhysicsSystem(800, 600, eventBus));
+    world.addSystem(new PhysicsSystem(GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT, eventBus));
     world.addSystem(ballSystem);
     world.addSystem(brickSystem);
     world.addSystem(scoreSystem);
     world.addSystem(playerStateSystem);
     world.addSystem(new EffectManagementSystem());
     world.addSystem(powerUpSystem);
-
-    // --- 4. INPUT HANDLERS ---
-    InputHandler inputHandler = new InputHandler(inputManager, gameManager);
-    inputHandler.attach(scene);
-
-    // --- 5. LOAD LEVEL, INITIALIZE BACKGROUND, AND SPAWN ENTITIES ---
-    LevelData level = levelManager.loadAndBuildLevel("level_test.yml");
-    this.backgroundManager = new BackgroundManager(level.background, 800, 600);
-    entityFactory.createPlayerState();
-    entityFactory.createPlayer(800 / 2.0 - 50, 600 - 50);
-    entityFactory.createBall(800 / 2.0 - 7.5, 600 / 2.0);
-
-    // --- 6. CREATE THE GAME LOOP ---
-    this.gameLoop = new GameLoop(gameManager, uiManager, backgroundManager, gc);
-  }
-
-  /** Starts the main game loop. */
-  public void run() {
-    if (gameLoop == null) {
-      throw new IllegalStateException("Game has not been initialized. Call initialize() first.");
-    }
-    gameLoop.start();
-  }
-
-  /** Stops the main game loop. */
-  public void stop() {
-    if (gameLoop != null) {
-      gameLoop.stop();
-    }
   }
 }

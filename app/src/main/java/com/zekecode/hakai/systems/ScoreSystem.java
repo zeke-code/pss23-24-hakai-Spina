@@ -8,6 +8,7 @@ import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.engine.events.BrickDestroyedEvent;
 import com.zekecode.hakai.engine.events.ScoreChangedEvent;
+import com.zekecode.hakai.utils.GameConfig;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,7 +32,7 @@ public class ScoreSystem extends GameSystem {
 
     // 2. Get the component and update its value.
     ScoreComponent scoreComp = stateEntityOpt.get().getComponent(ScoreComponent.class).get();
-    scoreComp.score += 10; // Increase score on the component
+    scoreComp.score += GameConfig.POINTS_PER_BRICK;
 
     System.out.println("SCORE: " + scoreComp.score);
     eventBus.post(new ScoreChangedEvent(scoreComp.score));

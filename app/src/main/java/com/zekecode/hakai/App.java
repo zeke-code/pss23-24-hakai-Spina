@@ -1,5 +1,8 @@
 package com.zekecode.hakai;
 
+import com.zekecode.hakai.engine.Game;
+import com.zekecode.hakai.utils.GameBuilder;
+import com.zekecode.hakai.utils.GameConfig;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -9,14 +12,13 @@ import javafx.stage.Stage;
 
 public class App extends Application {
 
-  private static final int WIDTH = 800;
-  private static final int HEIGHT = 600;
+  private static final int WIDTH = GameConfig.SCREEN_WIDTH;
+  private static final int HEIGHT = GameConfig.SCREEN_HEIGHT;
 
-  private Game game; // Keep a reference to the game object
+  private Game game;
 
   @Override
   public void start(Stage primaryStage) throws Exception {
-    // 1. Setup the JavaFX window
     primaryStage.setTitle("Hakai");
     Pane root = new Pane();
     Canvas canvas = new Canvas(WIDTH, HEIGHT);
@@ -26,9 +28,7 @@ public class App extends Application {
     primaryStage.setResizable(false);
     GraphicsContext gc = canvas.getGraphicsContext2D();
 
-    // 2. Create, initialize, and run the game
-    this.game = new Game(gc, scene);
-    this.game.initialize();
+    this.game = new GameBuilder().build(gc, scene);
     this.game.run();
 
     primaryStage.show();

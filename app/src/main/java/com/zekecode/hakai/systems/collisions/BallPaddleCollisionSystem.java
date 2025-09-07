@@ -11,6 +11,7 @@ import com.zekecode.hakai.core.Component;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.engine.events.CollisionEvent;
 import com.zekecode.hakai.engine.events.PaddleHitEvent;
+import com.zekecode.hakai.utils.GameConfig;
 
 /** Handles the specific logic for when a Ball collides with the player's Paddle. */
 public class BallPaddleCollisionSystem extends BallCollisionHandlerSystem {
@@ -46,7 +47,7 @@ public class BallPaddleCollisionSystem extends BallCollisionHandlerSystem {
       double paddleCenter = paddlePos.x + paddleRender.width / 2.0;
       double ballCenter = ballPos.x + ballRender.width / 2.0;
       double distanceFromCenter = ballCenter - paddleCenter;
-      ballVelocity.x += distanceFromCenter * 2; // Apply spin
+      ballVelocity.x += distanceFromCenter * GameConfig.BALL_SPIN_FACTOR; // Apply spin
 
       eventBus.post(new PaddleHitEvent());
     }
