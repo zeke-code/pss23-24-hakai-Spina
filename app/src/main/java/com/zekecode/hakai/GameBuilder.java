@@ -25,6 +25,7 @@ import com.zekecode.hakai.systems.collisions.CollisionSystem;
 import com.zekecode.hakai.systems.collisions.PaddlePowerUpCollisionSystem;
 import com.zekecode.hakai.systems.powerups.EffectManagementSystem;
 import com.zekecode.hakai.systems.powerups.PowerUpSystem;
+import com.zekecode.hakai.ui.SceneManager;
 import java.util.List;
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
@@ -36,7 +37,7 @@ import javafx.scene.canvas.GraphicsContext;
  */
 public class GameBuilder {
 
-  public Game build(GraphicsContext gc, Scene scene) {
+  public Game build(GraphicsContext gc, Scene scene, String levelFile, SceneManager sceneManager) {
     // --- 1. CREATE CORE INFRASTRUCTURE ---
     EventBus eventBus = new EventBus();
     World world = new World();
@@ -46,7 +47,7 @@ public class GameBuilder {
     SoundManager soundManager = new SoundManager();
     List<EntityRenderer> renderers = RendererFactory.createRenderers();
     EffectRegistry effectRegistry = new EffectRegistry(entityFactory);
-    GameManager gameManager = new GameManager(world);
+    GameManager gameManager = new GameManager(world, sceneManager);
     LevelManager levelManager = new LevelManager(entityFactory);
 
     // --- 2. CREATE AND CONFIGURE ALL GAME SYSTEMS & LISTENERS ---
@@ -66,7 +67,7 @@ public class GameBuilder {
     new InputHandler(inputManager, gameManager).attach(scene);
 
     // --- 4. LOAD LEVEL AND CREATE INITIAL ENTITIES ---
-    LevelData level = levelManager.loadAndBuildLevel("level_test.yml");
+    LevelData level = levelManager.loadAndBuildLevel(levelFile);
     BackgroundManager backgroundManager =
         new BackgroundManager(level.background, GameConfig.SCREEN_WIDTH, GameConfig.SCREEN_HEIGHT);
 

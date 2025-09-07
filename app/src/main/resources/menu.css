@@ -1,0 +1,51 @@
+/* Import the classic "Press Start 2P" pixel font from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+/* --- Main Menu Pane --- */
+.menu-pane {
+    -fx-background-color: #000000; /* Pure black background */
+    -fx-padding: 20px;
+}
+
+/* --- Big "Hakai" Title --- */
+.menu-title {
+    -fx-font-family: 'Press Start 2P', cursive;
+    -fx-font-size: 72px;
+    -fx-text-fill: #FFFFFF; /* White text */
+    /* A fiery orange retro glow effect */
+    -fx-effect: dropshadow(gaussian, #FF4500, 15, 0.7, 0, 0);
+}
+
+/* --- Subtitles (for other screens) --- */
+.menu-subtitle {
+    -fx-font-family: 'Press Start 2P', cursive;
+    -fx-font-size: 28px;
+    -fx-text-fill: #CCCCCC;
+}
+
+/* --- Standard Menu Buttons --- */
+.menu-button {
+    -fx-font-family: 'Press Start 2P', cursive;
+    -fx-font-size: 28px;
+    -fx-text-fill: #CCCCCC; /* Light gray text */
+    -fx-background-color: transparent; /* No button background */
+    -fx-padding: 20px;
+    -fx-border-width: 0;
+    -fx-cursor: hand; /* Changes cursor to a hand on hover */
+}
+
+/* --- Button Hover Effect (Updated to Blue) --- */
+.menu-button:hover {
+    -fx-text-fill: #00BFFF; /* DeepSkyBlue color for the text */
+    /* A subtle, cool blue glow */
+    -fx-effect: dropshadow(gaussian, #00BFFF, 10, 0.6, 0, 0);
+}
+
+/* --- Instructional Text ("How to Play") --- */
+.menu-text {
+    -fx-font-family: 'Press Start 2P', cursive;
+    -fx-font-size: 14px;
+    -fx-fill: #A9A9A9; /* Darker gray for readability */
+    -fx-text-alignment: center;
+    -fx-line-spacing: 10px; /* More space between lines */
+}

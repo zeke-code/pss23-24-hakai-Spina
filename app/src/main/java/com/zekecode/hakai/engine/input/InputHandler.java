@@ -25,9 +25,12 @@ public class InputHandler {
           // Update the state for game systems to use
           inputManager.pressKey(event.getCode());
 
-          // Handle global, non-ECS actions like pausing
+          // Handle global, non-ECS actions
           if (event.getCode() == KeyCode.P) {
             gameManager.togglePause();
+          }
+          if (event.getCode() == KeyCode.ESCAPE) {
+            gameManager.returnToMenu();
           }
         });
 
