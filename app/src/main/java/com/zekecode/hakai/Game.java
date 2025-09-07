@@ -10,13 +10,14 @@ import com.zekecode.hakai.engine.input.InputHandler;
 import com.zekecode.hakai.engine.input.InputManager;
 import com.zekecode.hakai.engine.ui.UIManager;
 import com.zekecode.hakai.entities.EntityFactory;
+import com.zekecode.hakai.powerups.EffectRegistry;
 import com.zekecode.hakai.systems.*;
 import com.zekecode.hakai.systems.collisions.BallBrickCollisionSystem;
 import com.zekecode.hakai.systems.collisions.BallPaddleCollisionSystem;
 import com.zekecode.hakai.systems.collisions.CollisionSystem;
 import com.zekecode.hakai.systems.collisions.PaddlePowerUpCollisionSystem;
-import com.zekecode.hakai.systems.powerups.PowerUpEffectSystem;
-import com.zekecode.hakai.systems.powerups.PowerUpSpawnSystem;
+import com.zekecode.hakai.systems.powerups.EffectManagementSystem;
+import com.zekecode.hakai.systems.powerups.PowerUpSystem;
 import com.zekecode.hakai.systems.rendering.EntityRenderer;
 import com.zekecode.hakai.systems.rendering.RenderSystem;
 import com.zekecode.hakai.systems.rendering.RendererFactory;
@@ -54,6 +55,7 @@ public class Game {
     UIManager uiManager = new UIManager(800, 600);
     SoundManager soundManager = new SoundManager();
     List<EntityRenderer> renderers = RendererFactory.createRenderers();
+    EffectRegistry effectRegistry = new EffectRegistry(entityFactory);
 
     // --- 2. CREATE GAME LOGIC & MANAGER ---
     GameManager gameManager = new GameManager(world);
@@ -66,10 +68,9 @@ public class Game {
     BallSystem ballSystem = new BallSystem(inputManager, entityFactory);
     BallPaddleCollisionSystem ballPaddleCollisionSystem = new BallPaddleCollisionSystem(eventBus);
     BallBrickCollisionSystem ballBrickCollisionSystem = new BallBrickCollisionSystem(eventBus);
-    PowerUpSpawnSystem powerUpSpawnSystem = new PowerUpSpawnSystem(entityFactory);
     PaddlePowerUpCollisionSystem paddlePowerUpCollisionSystem =
         new PaddlePowerUpCollisionSystem(eventBus);
-    PowerUpEffectSystem powerUpEffectSystem = new PowerUpEffectSystem();
+    PowerUpSystem powerUpSystem = new PowerUpSystem(world, entityFactory, effectRegistry);
 
     eventBus.register(gameManager);
     uiManager.registerEventHandlers(eventBus);
@@ -80,9 +81,8 @@ public class Game {
     eventBus.register(ballSystem);
     eventBus.register(ballPaddleCollisionSystem);
     eventBus.register((ballBrickCollisionSystem));
-    eventBus.register(powerUpSpawnSystem);
     eventBus.register(paddlePowerUpCollisionSystem);
-    eventBus.register(powerUpEffectSystem);
+    eventBus.register(powerUpSystem);
 
     world.addSystem(new RenderSystem(gc, renderers));
     world.addSystem(new MovementSystem(inputManager));
@@ -92,14 +92,15 @@ public class Game {
     world.addSystem(brickSystem);
     world.addSystem(scoreSystem);
     world.addSystem(playerStateSystem);
-    world.addSystem(powerUpEffectSystem);
+    world.addSystem(new EffectManagementSystem());
+    world.addSystem(powerUpSystem);
 
     // --- 4. INPUT HANDLERS ---
     InputHandler inputHandler = new InputHandler(inputManager, gameManager);
     inputHandler.attach(scene);
 
     // --- 5. LOAD LEVEL, INITIALIZE BACKGROUND, AND SPAWN ENTITIES ---
-    LevelData level = levelManager.loadAndBuildLevel("level_2.yml");
+    LevelData level = levelManager.loadAndBuildLevel("level_test.yml");
     this.backgroundManager = new BackgroundManager(level.background, 800, 600);
     entityFactory.createPlayerState();
     entityFactory.createPlayer(800 / 2.0 - 50, 600 - 50);

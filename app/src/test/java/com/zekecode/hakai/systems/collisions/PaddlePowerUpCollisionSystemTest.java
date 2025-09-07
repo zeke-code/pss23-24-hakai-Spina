@@ -34,7 +34,7 @@ class PaddlePowerUpCollisionSystemTest {
     paddle.addComponent(new InputComponent());
 
     powerUp = new Entity(2);
-    powerUp.addComponent(new PowerUpDropComponent("PADDLE_SIZE_INCREASE"));
+    powerUp.addComponent(new PowerUpDropComponent("PADDLE_EXPAND"));
   }
 
   @Test
@@ -62,7 +62,7 @@ class PaddlePowerUpCollisionSystemTest {
         postedEvent.collectorEntity,
         "The event should identify the paddle as the collector.");
     assertEquals(
-        "PADDLE_SIZE_INCREASE",
+        "PADDLE_EXPAND",
         postedEvent.powerUpType,
         "The event should contain the correct power-up type.");
   }

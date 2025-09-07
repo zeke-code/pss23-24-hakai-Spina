@@ -7,9 +7,9 @@ import com.zekecode.hakai.core.Component;
  * activated upon collection.
  */
 public class PowerUpDropComponent implements Component {
-  public final String type;
+  public final String effectType;
 
-  public PowerUpDropComponent(String type) {
-    this.type = type;
+  public PowerUpDropComponent(String effectType) {
+    this.effectType = effectType;
   }
 }

@@ -34,7 +34,7 @@ public class PaddlePowerUpCollisionSystem extends GameSystem {
     powerUp.addComponent(new DeadComponent());
 
     // Publish an event to notify other systems that a power-up was collected
-    String type = powerUp.getComponent(PowerUpDropComponent.class).get().type;
+    String type = powerUp.getComponent(PowerUpDropComponent.class).get().effectType;
     eventBus.post(new PowerUpCollectedEvent(paddle, type));
   }
 

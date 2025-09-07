@@ -1,0 +1,41 @@
+levelName: "Power-up Valley (yahoo xdxd)"
+levelNumber: 5
+background: "backgrounds/space_loop.gif"
+
+layout:
+  defaultBrickWidth: 45
+  defaultBrickHeight: 18
+  padding: 4
+  offsetTop: 40
+  pattern:
+    - "S.P.S.P.S.P.S.P.S.P.S.P.S"
+    - "P.S.P.S.P.S.P.S.P.S.P.S.P"
+    - "S.P.S.P.S.P.S.P.S.P.S.P.S"
+    - "P.S.P.S.P.S.P.S.P.S.P.S.P"
+    - "S.P.S.P.S.P.S.P.S.P.S.P.S"
+    - "P.S.P.S.N.N.N.N.N.S.P.S.P"
+    - "S.P.S.N.P.S.P.S.P.N.S.P.S"
+    - "P.S.N.P.S.P.S.P.S.P.N.S.P"
+    - "S.N.P.S.P.S.P.S.P.S.P.N.S"
+    - "N.P.S.P.S.P.S.P.S.P.S.P.N"
+
+
+brickTypes:
+  # Normal Brick
+  N:
+    color: "#7F8C8D" # Gray
+    hp: 1
+
+  # Power-up Bricks
+  P:
+    color: "#9B59B6" # Purple (Paddle Expand)
+    hp: 1
+    powerUp:
+      type: "PADDLE_EXPAND"
+      trigger: "ON_COLLECT"
+  S:
+    color: "#BDC3C7" # Silver (Spawn Ball)
+    hp: 1
+    powerUp:
+      type: "SPAWN_BALL"
+      trigger: "INSTANT"

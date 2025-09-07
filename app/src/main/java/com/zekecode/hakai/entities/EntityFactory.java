@@ -3,6 +3,7 @@ package com.zekecode.hakai.entities;
 import com.zekecode.hakai.components.*;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.World;
+import com.zekecode.hakai.engine.data.PowerUpData;
 import javafx.scene.paint.Color;
 
 /**
@@ -65,6 +66,30 @@ public class EntityFactory {
   }
 
   /**
+   * Creates a new ball that is immediately active and launched with its own velocity. Used by
+   * power-ups.
+   *
+   * @param x The initial horizontal position (from the brick).
+   * @param y The initial vertical position (from the brick).
+   * @return The fully configured and launched ball Entity.
+   */
+  public Entity createLaunchedBall(double x, double y) {
+    Entity ball = world.createEntity();
+
+    // A random horizontal velocity makes the spawn more dynamic.
+    double randomVelX = (Math.random() - 0.5) * 250;
+
+    ball.addComponent(new PositionComponent(x, y));
+    ball.addComponent(new VelocityComponent(randomVelX, 250)); // Launch downwards
+    ball.addComponent(new RenderComponent(15, 15, Color.WHITE));
+    ball.addComponent(new BallComponent());
+    ball.addComponent(new CollidableComponent());
+    // NOTE: We DO NOT add the BallStuckToPaddleComponent.
+
+    return ball;
+  }
+
+  /**
    * Creates a brick entity. Bricks are static and only need position, rendering, and health
    * components.
    *
@@ -77,7 +102,13 @@ public class EntityFactory {
    * @return The fully configured brick Entity.
    */
   public Entity createBrick(
-      double x, double y, double width, double height, Color color, int hp, String powerUpType) {
+      double x,
+      double y,
+      double width,
+      double height,
+      Color color,
+      int hp,
+      PowerUpData powerUpData) {
     Entity brick = world.createEntity();
 
     brick.addComponent(new PositionComponent(x, y));
@@ -85,8 +116,8 @@ public class EntityFactory {
     brick.addComponent(new BrickComponent(hp));
     brick.addComponent(new CollidableComponent());
 
-    if (powerUpType != null && !powerUpType.isBlank()) {
-      brick.addComponent(new PowerUpComponent(powerUpType));
+    if (powerUpData != null) {
+      brick.addComponent(new PowerUpComponent(powerUpData));
     }
 
     return brick;
@@ -97,20 +128,18 @@ public class EntityFactory {
    *
    * @param x The initial x position (usually from a destroyed brick).
    * @param y The initial y position (usually from a destroyed brick).
-   * @param powerUpType The type of power-up (e.g., "PADDLE_SIZE_INCREASE").
+   * @param effectType The type of effect to be applied on collection.
    * @return The fully configured power-up drop Entity.
    */
-  public Entity createPowerUpDrop(double x, double y, String powerUpType) {
+  public Entity createPowerUpDrop(double x, double y, String effectType) {
     Entity drop = world.createEntity();
     drop.addComponent(new PositionComponent(x, y));
     drop.addComponent(new VelocityComponent(0, 150)); // Move downwards
     drop.addComponent(new RenderComponent(40, 15, Color.CYAN));
-    drop.addComponent(new PowerUpDropComponent(powerUpType));
+    drop.addComponent(new PowerUpDropComponent(effectType));
     drop.addComponent(new CollidableComponent());
     return drop;
   }
-
-  // In EntityFactory.java
 
   /**
    * Creates a single entity to track global game state, such as score and lives.

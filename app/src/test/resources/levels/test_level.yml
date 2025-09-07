@@ -15,7 +15,9 @@ brickTypes:
   R:
     color: "#FF0000"
     hp: 1
-    powerUp: "PADDLE_SIZE_INCREASE"
+    powerUp:
+      type: "PADDLE_EXPAND"
+      trigger: "ON_COLLECT"
   B:
     color: "#0000FF"
     hp: 2

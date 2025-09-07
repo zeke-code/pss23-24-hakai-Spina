@@ -4,7 +4,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
 
+import com.zekecode.hakai.engine.data.PowerUpData;
 import com.zekecode.hakai.entities.EntityFactory;
+import com.zekecode.hakai.powerups.PowerUpTrigger;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,7 +23,7 @@ class LevelManagerTest {
   @Captor private ArgumentCaptor<Double> xCaptor, yCaptor, widthCaptor, heightCaptor;
   @Captor private ArgumentCaptor<Color> colorCaptor;
   @Captor private ArgumentCaptor<Integer> hpCaptor;
-  @Captor private ArgumentCaptor<String> powerUpCaptor;
+  @Captor private ArgumentCaptor<PowerUpData> powerUpCaptor;
 
   private LevelManager levelManager;
 
@@ -54,7 +56,9 @@ class LevelManagerTest {
     assertEquals(50.0, yCaptor.getAllValues().get(0));
     assertEquals(Color.web("#FF0000"), colorCaptor.getAllValues().get(0));
     assertEquals(1, hpCaptor.getAllValues().get(0));
-    assertEquals("PADDLE_SIZE_INCREASE", powerUpCaptor.getAllValues().get(0));
+    PowerUpData firstPowerUp = powerUpCaptor.getAllValues().get(0);
+    assertEquals("PADDLE_EXPAND", firstPowerUp.type);
+    assertEquals(PowerUpTrigger.ON_COLLECT, firstPowerUp.trigger);
 
     // --- Verify the second brick ('B') ---
     // Position: row 1, col 1.
