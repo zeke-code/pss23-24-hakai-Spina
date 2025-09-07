@@ -5,9 +5,11 @@ import static org.mockito.Mockito.lenient;
 import static org.mockito.Mockito.when;
 
 import com.zekecode.hakai.components.InputComponent;
+import com.zekecode.hakai.components.MovableComponent;
 import com.zekecode.hakai.components.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.engine.input.InputManager;
+import com.zekecode.hakai.utils.GameConfig;
 import java.util.List;
 import javafx.scene.input.KeyCode;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,6 +35,7 @@ class MovementSystemTest {
     player = new Entity(1);
     playerVelocity = new VelocityComponent(0, 0);
     player.addComponent(new InputComponent());
+    player.addComponent(new MovableComponent(GameConfig.PADDLE_SPEED));
     player.addComponent(playerVelocity);
 
     lenient().when(inputManager.isKeyPressed(KeyCode.LEFT)).thenReturn(false);

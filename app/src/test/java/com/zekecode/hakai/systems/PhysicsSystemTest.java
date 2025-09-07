@@ -10,6 +10,7 @@ import com.zekecode.hakai.components.RenderComponent;
 import com.zekecode.hakai.components.VelocityComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.engine.events.BallLostEvent;
+import com.zekecode.hakai.utils.GameConfig;
 import java.util.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,10 +25,8 @@ class PhysicsSystemTest {
   @Mock private EventBus eventBus;
 
   private PhysicsSystem physicsSystem;
-  // TODO: to remove magic numbers when I'm adding the config thingy through yaml (i'm lazy atm
-  // sorry)
-  private final double SCREEN_WIDTH = 800;
-  private final double SCREEN_HEIGHT = 600;
+  private final double SCREEN_WIDTH = GameConfig.SCREEN_WIDTH;
+  private final double SCREEN_HEIGHT = GameConfig.SCREEN_HEIGHT;
 
   @BeforeEach
   void setUp() {
