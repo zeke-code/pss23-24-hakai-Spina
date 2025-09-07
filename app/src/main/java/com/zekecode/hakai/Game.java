@@ -14,7 +14,7 @@ import com.zekecode.hakai.systems.*;
 import com.zekecode.hakai.systems.collisions.BallBrickCollisionSystem;
 import com.zekecode.hakai.systems.collisions.BallPaddleCollisionSystem;
 import com.zekecode.hakai.systems.collisions.CollisionSystem;
-import com.zekecode.hakai.systems.powerups.PaddlePowerUpCollisionSystem;
+import com.zekecode.hakai.systems.collisions.PaddlePowerUpCollisionSystem;
 import com.zekecode.hakai.systems.powerups.PowerUpEffectSystem;
 import com.zekecode.hakai.systems.powerups.PowerUpSpawnSystem;
 import com.zekecode.hakai.systems.rendering.EntityRenderer;

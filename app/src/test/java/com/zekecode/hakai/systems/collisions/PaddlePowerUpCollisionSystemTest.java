@@ -1,4 +1,4 @@
-package com.zekecode.hakai.systems.powerups;
+package com.zekecode.hakai.systems.collisions;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
