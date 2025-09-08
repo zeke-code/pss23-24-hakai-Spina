@@ -10,6 +10,7 @@ import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.GameSystem;
 import com.zekecode.hakai.events.CollisionEvent;
 import com.zekecode.hakai.events.powerup.PowerUpCollectedEvent;
+import com.zekecode.hakai.powerups.PowerUpType;
 import java.util.List;
 
 /** Handles the specific collision logic between the player's paddle and a power-up drop. */
@@ -34,7 +35,7 @@ public class PaddlePowerUpCollisionSystem extends GameSystem {
     powerUp.addComponent(new DeadComponent());
 
     // Publish an event to notify other systems that a power-up was collected
-    String type = powerUp.getComponent(PowerUpDropComponent.class).get().effectType;
+    PowerUpType type = powerUp.getComponent(PowerUpDropComponent.class).get().effectType;
     eventBus.post(new PowerUpCollectedEvent(paddle, type));
   }
 

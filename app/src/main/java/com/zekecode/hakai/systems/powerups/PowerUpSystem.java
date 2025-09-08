@@ -13,6 +13,7 @@ import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.events.brick.BrickDestroyedEvent;
 import com.zekecode.hakai.events.powerup.PowerUpCollectedEvent;
 import com.zekecode.hakai.powerups.EffectRegistry;
+import com.zekecode.hakai.powerups.PowerUpType;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,10 +68,10 @@ public class PowerUpSystem extends GameSystem {
    * Applies a specific effect to a target entity. If the effect has a duration, it will add an
    * {@link ActiveEffectComponent} to manage its lifecycle.
    *
-   * @param effectType The string ID of the effect to apply.
+   * @param effectType The type of effect to apply.
    * @param target The entity to apply the effect to.
    */
-  private void applyEffect(String effectType, Entity target) {
+  private void applyEffect(PowerUpType effectType, Entity target) {
     effectRegistry
         .getEffect(effectType)
         .ifPresentOrElse(

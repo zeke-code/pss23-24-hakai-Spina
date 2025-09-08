@@ -29,13 +29,13 @@ brickTypes:
     color: "#F1C40F" # Yellow (Paddle Expand)
     hp: 1
     powerUp:
-      type: "PADDLE_EXPAND"
+      type: PADDLE_EXPAND
       trigger: "ON_COLLECT"
   S:
     color: "#ECF0F1" # White (Spawn Ball)
     hp: 1
     powerUp:
-      type: "SPAWN_BALL"
+      type: SPAWN_BALL
       trigger: "INSTANT"
 
   # Malus Brick
@@ -43,5 +43,5 @@ brickTypes:
     color: "#C0392B" # Dark Red (Paddle Slow)
     hp: 1
     powerUp:
-      type: "PADDLE_SLOW"
+      type: PADDLE_SLOW
       trigger: "ON_COLLECT"

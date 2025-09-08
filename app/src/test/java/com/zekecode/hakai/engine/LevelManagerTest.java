@@ -8,6 +8,7 @@ import com.zekecode.hakai.config.data.PowerUpData;
 import com.zekecode.hakai.engine.game.LevelManager;
 import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.powerups.PowerUpTrigger;
+import com.zekecode.hakai.powerups.PowerUpType;
 import javafx.scene.paint.Color;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,7 +59,7 @@ class LevelManagerTest {
     assertEquals(Color.web("#FF0000"), colorCaptor.getAllValues().get(0));
     assertEquals(1, hpCaptor.getAllValues().get(0));
     PowerUpData firstPowerUp = powerUpCaptor.getAllValues().get(0);
-    assertEquals("PADDLE_EXPAND", firstPowerUp.type);
+    assertEquals(PowerUpType.PADDLE_EXPAND, firstPowerUp.type);
     assertEquals(PowerUpTrigger.ON_COLLECT, firstPowerUp.trigger);
 
     // --- Verify the second brick ('B') ---

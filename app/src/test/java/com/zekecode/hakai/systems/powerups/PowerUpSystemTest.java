@@ -16,6 +16,7 @@ import com.zekecode.hakai.events.brick.BrickDestroyedEvent;
 import com.zekecode.hakai.events.powerup.PowerUpCollectedEvent;
 import com.zekecode.hakai.powerups.EffectRegistry;
 import com.zekecode.hakai.powerups.PowerUpTrigger;
+import com.zekecode.hakai.powerups.PowerUpType;
 import com.zekecode.hakai.powerups.effects.PaddleExpandEffect;
 import java.util.List;
 import java.util.Optional;
@@ -45,7 +46,7 @@ class PowerUpSystemTest {
   void onBrickDestroyed_withOnCollectTrigger_shouldSpawnPowerUpDrop() {
     // ARRANGE
     PowerUpData powerUpData = new PowerUpData();
-    powerUpData.type = "PADDLE_EXPAND";
+    powerUpData.type = PowerUpType.PADDLE_EXPAND;
     powerUpData.trigger = PowerUpTrigger.ON_COLLECT;
 
     Entity brick = new Entity(1);
@@ -57,7 +58,7 @@ class PowerUpSystemTest {
     powerUpSystem.onBrickDestroyed(event);
 
     // ASSERT
-    verify(entityFactory, times(1)).createPowerUpDrop(100, 50, "PADDLE_EXPAND");
+    verify(entityFactory, times(1)).createPowerUpDrop(100, 50, PowerUpType.PADDLE_EXPAND);
   }
 
   @Test
@@ -65,10 +66,10 @@ class PowerUpSystemTest {
     // ARRANGE
     Entity paddle = new Entity(1);
     paddle.addComponent(new RenderComponent(100, 20, null));
-    PowerUpCollectedEvent event = new PowerUpCollectedEvent(paddle, "PADDLE_EXPAND");
+    PowerUpCollectedEvent event = new PowerUpCollectedEvent(paddle, PowerUpType.PADDLE_EXPAND);
     PaddleExpandEffect effect = new PaddleExpandEffect();
 
-    when(effectRegistry.getEffect("PADDLE_EXPAND")).thenReturn(Optional.of(effect));
+    when(effectRegistry.getEffect(PowerUpType.PADDLE_EXPAND)).thenReturn(Optional.of(effect));
 
     // ACT
     powerUpSystem.onPowerUpCollected(event);

@@ -17,6 +17,7 @@ import com.zekecode.hakai.config.GameConfig;
 import com.zekecode.hakai.config.data.PowerUpData;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.core.World;
+import com.zekecode.hakai.powerups.PowerUpType;
 import javafx.scene.paint.Color;
 
 /**
@@ -150,7 +151,7 @@ public class EntityFactory {
    * @param effectType The type of effect to be applied on collection.
    * @return The fully configured power-up drop Entity.
    */
-  public Entity createPowerUpDrop(double x, double y, String effectType) {
+  public Entity createPowerUpDrop(double x, double y, PowerUpType effectType) {
     Entity drop = world.createEntity();
     drop.addComponent(new PositionComponent(x, y));
     drop.addComponent(new VelocityComponent(0, GameConfig.POWERUP_DROP_SPEED));

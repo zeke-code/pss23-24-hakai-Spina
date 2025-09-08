@@ -15,7 +15,7 @@ import java.util.Optional;
  */
 public class EffectRegistry {
 
-  private final Map<String, Effect> effects = new HashMap<>();
+  private final Map<PowerUpType, Effect> effects = new HashMap<>();
   private final EntityFactory entityFactory;
 
   public EffectRegistry(EntityFactory entityFactory) {
@@ -44,8 +44,13 @@ public class EffectRegistry {
               cls -> {
                 try {
                   EffectId annotation = cls.getAnnotation(EffectId.class);
-                  String id = annotation.value();
+                  String idAsString = annotation.value();
                   Effect instance;
+
+                  // Convert the annotation's string to an enum constant.
+                  // This will throw an error at startup if you have a typo in the annotation
+                  // or forget to add a new type to the enum.
+                  PowerUpType type = PowerUpType.valueOf(idAsString);
 
                   // Try to instantiate with EntityFactory dependency first.
                   try {
@@ -56,8 +61,8 @@ public class EffectRegistry {
                     instance = cls.getDeclaredConstructor().newInstance();
                   }
 
-                  effects.put(id, instance);
-                  System.out.println("  -> Discovered and registered effect: " + id);
+                  effects.put(type, instance);
+                  System.out.println("  -> Discovered and registered effect: " + type);
                 } catch (Exception e) {
                   System.err.println("Failed to instantiate effect: " + cls.getName());
                   e.printStackTrace();
@@ -70,10 +75,10 @@ public class EffectRegistry {
   /**
    * Retrieves an effect instance by its unique identifier.
    *
-   * @param id The string identifier of the effect (e.g., "PADDLE_EXPAND").
+   * @param type The PowerUpType enum value representing the effect's ID.
    * @return An Optional containing the Effect instance if found, otherwise an empty Optional.
    */
-  public Optional<Effect> getEffect(String id) {
-    return Optional.ofNullable(effects.get(id));
+  public Optional<Effect> getEffect(PowerUpType type) {
+    return Optional.ofNullable(effects.get(type));
   }
 }

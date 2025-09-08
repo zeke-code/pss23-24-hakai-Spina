@@ -29,13 +29,13 @@ brickTypes:
     color: "#1ABC9C" # Vibrant Cyan (Paddle Expand)
     hp: 1
     powerUp:
-      type: "PADDLE_EXPAND"
+      type: PADDLE_EXPAND
       trigger: "ON_COLLECT"
   S:
     color: "#F02390" # Bright Magenta (Spawn Ball)
     hp: 1
     powerUp:
-      type: "SPAWN_BALL"
+      type: SPAWN_BALL
       trigger: "INSTANT"
 
   # Malus Brick
@@ -43,5 +43,5 @@ brickTypes:
     color: "#A8E610" # Jarring Lime Green (Paddle Slow)
     hp: 1
     powerUp:
-      type: "PADDLE_SLOW"
+      type: PADDLE_SLOW
       trigger: "ON_COLLECT"
