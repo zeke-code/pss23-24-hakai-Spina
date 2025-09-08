@@ -1,0 +1,32 @@
+name: Build and Release JAR
+
+# This workflow runs when a new tag is pushed that starts with 'v'
+# For example: v1.0, v1.0.1, v1.2.3-beta
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build-jar:
+    runs-on: ubuntu-latest
+    container:
+      # Using Temurin Alpine docker container to match local development JDK
+      image: eclipse-temurin:17.0.16_8-jdk-alpine
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v5
+
+      # Ensure the Gradle wrapper has execute permissions
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      - name: Build fat JAR with ShadowJar
+        run: ./gradlew shadowJar
+
+      - name: Upload JAR artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: Hakai-JAR
+          path: app/build/libs/*-all.jar
