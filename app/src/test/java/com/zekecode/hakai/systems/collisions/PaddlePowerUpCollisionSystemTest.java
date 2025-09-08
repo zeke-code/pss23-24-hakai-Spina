@@ -11,6 +11,7 @@ import com.zekecode.hakai.components.powerups.PowerUpDropComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.events.CollisionEvent;
 import com.zekecode.hakai.events.powerup.PowerUpCollectedEvent;
+import com.zekecode.hakai.powerups.EffectCategory;
 import com.zekecode.hakai.powerups.PowerUpType;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,8 @@ class PaddlePowerUpCollisionSystemTest {
     paddle.addComponent(new InputComponent());
 
     powerUp = new Entity(2);
-    powerUp.addComponent(new PowerUpDropComponent(PowerUpType.PADDLE_EXPAND));
+    powerUp.addComponent(
+        new PowerUpDropComponent(PowerUpType.PADDLE_EXPAND, EffectCategory.POSITIVE));
   }
 
   @Test

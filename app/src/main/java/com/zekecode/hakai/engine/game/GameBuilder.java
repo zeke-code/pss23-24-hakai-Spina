@@ -135,7 +135,7 @@ public class GameBuilder {
     world.addSystem(brickSystem);
     world.addSystem(scoreSystem);
     world.addSystem(livesSystem);
-    world.addSystem(new EffectManagementSystem());
+    world.addSystem(new EffectManagementSystem(effectRegistry));
     world.addSystem(powerUpSystem);
     world.addSystem(levelCompletionSystem);
   }

@@ -3,7 +3,7 @@ package com.zekecode.hakai.systems.powerups;
 import com.google.common.eventbus.Subscribe;
 import com.zekecode.hakai.components.InputComponent;
 import com.zekecode.hakai.components.physics.PositionComponent;
-import com.zekecode.hakai.components.powerups.ActiveEffectComponent;
+import com.zekecode.hakai.components.powerups.ActiveEffectsComponent;
 import com.zekecode.hakai.components.powerups.PowerUpComponent;
 import com.zekecode.hakai.config.data.PowerUpData;
 import com.zekecode.hakai.core.Entity;
@@ -74,7 +74,7 @@ public class PowerUpSystem extends GameSystem {
 
   /**
    * Applies a specific effect to a target entity. If the effect has a duration, it will add an
-   * {@link ActiveEffectComponent} to manage its lifecycle.
+   * {@link ActiveEffectsComponent} to manage its lifecycle.
    *
    * @param effectType The type of effect to apply.
    * @param target The entity to apply the effect to.
@@ -84,22 +84,22 @@ public class PowerUpSystem extends GameSystem {
         .getEffect(effectType)
         .ifPresentOrElse(
             effect -> {
-              // Apply the effect's logic to the target entity.
               effect.apply(target);
 
-              // If the effect is timed, add the component to manage its duration.
               if (effect.getDuration() > 0) {
-                // If the same effect is already active, just reset its timer.
-                // Otherwise, add a new component.
-                target
-                    .getComponent(ActiveEffectComponent.class)
-                    .ifPresentOrElse(
-                        activeEffect -> {
-                          if (activeEffect.effect.getClass() == effect.getClass()) {
-                            activeEffect.timeRemaining = effect.getDuration();
-                          }
-                        },
-                        () -> target.addComponent(new ActiveEffectComponent(effect)));
+                // Get the component, or create a new one if it doesn't exist.
+                ActiveEffectsComponent effectsComp =
+                    target
+                        .getComponent(ActiveEffectsComponent.class)
+                        .orElseGet(
+                            () -> {
+                              ActiveEffectsComponent newComp = new ActiveEffectsComponent();
+                              target.addComponent(newComp);
+                              return newComp;
+                            });
+
+                // Add or reset the timer for this specific effect in the map.
+                effectsComp.activeEffects.put(effectType, effect.getDuration());
               }
               System.out.println("Applied effect '" + effectType + "' to entity " + target.getId());
             },
