@@ -7,3 +7,5 @@ sounds:
   BrickHitEvent: "brick_hit"
   BallLostEvent: "ball_lost"
   PowerUpCollectedEvent: "powerup_collect"
+  LevelClearEvent: "level_cleared_jingle"
+  GameOverEvent: "game_over_tone"
