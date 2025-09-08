@@ -11,6 +11,10 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.RadialGradient;
 import javafx.scene.paint.Stop;
 
+/**
+ * Renders a ball entity with a gradient to give it a spherical appearance and a specular highlight
+ * for a glossy effect.
+ */
 public class BallRenderer implements EntityRenderer {
   @Override
   public void render(GraphicsContext gc, Entity entity) {
@@ -39,6 +43,12 @@ public class BallRenderer implements EntityRenderer {
     gc.fillOval(pos.x + highlightSize, pos.y + highlightSize, highlightSize, highlightSize);
   }
 
+  /**
+   * This renderer supports entities that have a BallComponent.
+   *
+   * @param entity The entity to check.
+   * @return true if the entity has a BallComponent, false otherwise.
+   */
   @Override
   public boolean supports(Entity entity) {
     return entity.hasComponent(BallComponent.class);

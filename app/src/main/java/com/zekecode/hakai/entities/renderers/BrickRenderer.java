@@ -29,6 +29,12 @@ public class BrickRenderer implements EntityRenderer {
     gc.strokeRect(pos.x, pos.y, render.width, render.height);
   }
 
+  /**
+   * This renderer supports entities that have a BrickComponent.
+   *
+   * @param entity The entity to check.
+   * @return true if the entity has a BrickComponent, false otherwise.
+   */
   @Override
   public boolean supports(Entity entity) {
     return entity.hasComponent(BrickComponent.class);

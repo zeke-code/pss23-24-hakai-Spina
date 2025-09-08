@@ -6,6 +6,11 @@ import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.powerups.Effect;
 import com.zekecode.hakai.powerups.EffectId;
 
+/**
+ * An effect that spawns a new ball at the position of the target entity when applied. This effect
+ * is typically used when a brick is destroyed, causing a new ball to be launched from that
+ * location.
+ */
 @EffectId("SPAWN_BALL")
 public class SpawnBallEffect implements Effect {
 

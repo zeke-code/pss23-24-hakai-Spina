@@ -6,6 +6,16 @@ import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.powerups.Effect;
 import com.zekecode.hakai.powerups.EffectId;
 
+/**
+ * An effect that temporarily increases the width of the player's paddle.
+ *
+ * <p>This effect modifies the RenderComponent of the paddle entity to increase its width by a
+ * defined multiplier. The original width is stored in a PaddleStateComponent to allow for easy
+ * restoration when the effect duration ends.
+ *
+ * <p>The effect lasts for a set duration (e.g., 10 seconds) before automatically reverting the
+ * paddle back to its original size.
+ */
 @EffectId("PADDLE_EXPAND")
 public class PaddleExpandEffect implements Effect {
 

@@ -1,3 +1,7 @@
+# This file maps game events to their corresponding sound effect identifiers.
+# To add a new sound effect matching with a specific event, simply add a new entry following the existing format.
+# The format is: EventName: "sound_effect_identifier"
+
 sounds:
   PaddleHitEvent: "paddle_hit"
   BrickHitEvent: "brick_hit"

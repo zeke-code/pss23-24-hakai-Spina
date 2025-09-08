@@ -8,8 +8,17 @@ import io.github.classgraph.ScanResult;
 import java.util.Comparator;
 import java.util.List;
 
+/**
+ * Factory class to discover and instantiate all EntityRenderer implementations using ClassGraph.
+ */
 public class RendererFactory {
 
+  /**
+   * Scans the specified package for all classes implementing EntityRenderer, instantiates them, and
+   * returns a list of renderers sorted to ensure DefaultRenderer is last.
+   *
+   * @return List of instantiated EntityRenderer objects.
+   */
   public static List<EntityRenderer> createRenderers() {
     String rendererPackage = GameConfig.ENTITIY_RENDERERS_PACKAGE;
 

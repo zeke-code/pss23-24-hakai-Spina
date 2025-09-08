@@ -77,6 +77,12 @@ public class SoundManager {
     System.out.println("Loaded " + eventToSoundMap.size() + " event-to-sound mappings.");
   }
 
+  /**
+   * Loads a single sound file into an AudioClip and stores it in the soundEffects map.
+   *
+   * @param name The identifier for the sound effect (derived from filename).
+   * @param resourcePath The path to the sound file within resources.
+   */
   private void loadSound(String name, String resourcePath) {
     URL resourceUrl = getClass().getClassLoader().getResource(resourcePath);
     if (resourceUrl == null) {
@@ -93,6 +99,11 @@ public class SoundManager {
     }
   }
 
+  /**
+   * Plays the sound effect associated with the given name.
+   *
+   * @param name The identifier for the sound effect to play.
+   */
   private void playSound(String name) {
     AudioClip clip = soundEffects.get(name);
     if (clip != null) {

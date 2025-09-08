@@ -5,8 +5,8 @@ import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 
 /**
- * Encapsulates the logic for handling raw keyboard input from a JavaFX Scene. It updates the
- * InputManager state and can delegate global actions to the GameManager.
+ * InputHandler sets up key event listeners on the main game scene and updates the InputManager
+ * accordingly. It also handles global actions like pausing the game or returning to the main menu.
  */
 public class InputHandler {
 
@@ -18,7 +18,7 @@ public class InputHandler {
     this.gameManager = gameManager;
   }
 
-  /** Attaches the necessary key event listeners to the main game scene. */
+  /** Attaches key event listeners to the provided JavaFX scene. */
   public void attach(Scene scene) {
     scene.setOnKeyPressed(
         event -> {

@@ -8,7 +8,9 @@ import java.util.List;
  */
 public abstract class GameSystem {
   /**
-   * Updates the system by processing the given list of entities.
+   * Updates the system by processing the given list of entities. Note that not all systems will
+   * require an update method, as some may operate solely based on events. In those cases, this
+   * method can be left unimplemented.
    *
    * @param entities The list of entities to process.
    * @param deltaTime The time elapsed since the last update, in seconds.

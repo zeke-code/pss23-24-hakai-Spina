@@ -6,6 +6,14 @@ import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.powerups.Effect;
 import com.zekecode.hakai.powerups.EffectId;
 
+/**
+ * An effect that temporarily reduces the paddle's movement speed.
+ *
+ * <p>When applied, this effect halves the paddle's speed for a duration of 8 seconds. If the paddle
+ * is already slowed, the effect will not stack or reset the duration.
+ *
+ * <p>This effect is intended to be used as a negative power-up (malus) to increase game difficulty.
+ */
 @EffectId("PADDLE_SLOW")
 public class PaddleSlowEffect implements Effect {
 

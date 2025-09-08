@@ -22,16 +22,19 @@ public class HUDManager {
     this.hudFont = Font.font("Arial", FontWeight.BOLD, 22);
   }
 
+  /** Listens for score change events to update the displayed score. */
   @Subscribe
   public void onScoreChanged(ScoreChangedEvent event) {
     this.currentScore = event.newScore;
   }
 
+  /** Listens for lives change events to update the displayed lives. */
   @Subscribe
   public void onLivesChanged(LivesChangedEvent event) {
     this.currentLives = event.remainingLives;
   }
 
+  /** Renders the HUD elements onto the provided graphics context. */
   public void render(GraphicsContext gc) {
     Color panelColor = Color.web("black", 0.4);
     Color textColor = Color.WHITE;
@@ -60,6 +63,14 @@ public class HUDManager {
     }
   }
 
+  /**
+   * Draws a single life icon (representing a paddle ATM, I want to change it because it looks so
+   * frickin bad) at the specified index.
+   *
+   * @param gc The graphics context to draw on.
+   * @param index The index of the life icon (0-based).
+   * @param padding The padding from the edges of the screen.
+   */
   private void drawLifeIcon(GraphicsContext gc, int index, double padding) {
     double iconWidth = 35;
     double iconHeight = 8;

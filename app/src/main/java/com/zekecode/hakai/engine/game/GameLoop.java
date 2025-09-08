@@ -5,6 +5,10 @@ import com.zekecode.hakai.ui.UIManager;
 import javafx.animation.AnimationTimer;
 import javafx.scene.canvas.GraphicsContext;
 
+/**
+ * The main game loop that drives the update and rendering cycle. It uses JavaFX's AnimationTimer to
+ * call the handle method approximately 60 times per second.
+ */
 public class GameLoop extends AnimationTimer {
 
   private final GameManager gameManager;
@@ -24,6 +28,12 @@ public class GameLoop extends AnimationTimer {
     this.gc = gc;
   }
 
+  /**
+   * The main loop method called by JavaFX's AnimationTimer. It calculates the time delta since the
+   * last frame, updates game logic, and renders the current state to the canvas.
+   *
+   * @param now The current timestamp in nanoseconds.
+   */
   @Override
   public void handle(long now) {
     if (lastUpdate == 0) {

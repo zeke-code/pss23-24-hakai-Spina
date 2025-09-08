@@ -19,6 +19,12 @@ public class DefaultRenderer implements EntityRenderer {
     gc.fillRect(pos.x, pos.y, render.width, render.height);
   }
 
+  /**
+   * This renderer supports any entity that has both PositionComponent and RenderComponent.
+   *
+   * @param entity The entity to check.
+   * @return true if the entity has both PositionComponent and RenderComponent, false otherwise.
+   */
   @Override
   public boolean supports(Entity entity) {
     // This is the fallback, so it always returns true.

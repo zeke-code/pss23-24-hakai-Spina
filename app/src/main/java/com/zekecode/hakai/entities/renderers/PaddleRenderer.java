@@ -11,6 +11,10 @@ import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
 
+/**
+ * Renders a paddle entity with a sleek, modern look using gradients and rounded corners to enhance
+ * its visual appeal.
+ */
 public class PaddleRenderer implements EntityRenderer {
   @Override
   public void render(GraphicsContext gc, Entity entity) {
@@ -41,6 +45,13 @@ public class PaddleRenderer implements EntityRenderer {
     gc.strokeRoundRect(pos.x, pos.y, render.width, render.height, arcSize, arcSize);
   }
 
+  /**
+   * This renderer supports entities that have an InputComponent, which is characteristic of the
+   * player paddle.
+   *
+   * @param entity The entity to check.
+   * @return true if the entity has an InputComponent, false otherwise.
+   */
   @Override
   public boolean supports(Entity entity) {
     return entity.hasComponent(InputComponent.class);

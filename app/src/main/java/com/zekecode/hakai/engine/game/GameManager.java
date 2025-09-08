@@ -54,23 +54,31 @@ public class GameManager {
     delay.play();
   }
 
+  /**
+   * Updates the game state. Only updates the world if the game is in the RUNNING state.
+   *
+   * @param deltaTime - Time elapsed since the last update (in seconds).
+   */
   public void update(double deltaTime) {
     if (currentState == GameState.RUNNING) {
       world.update(deltaTime);
     }
   }
 
+  /** Toggles between RUNNING and PAUSED states. */
   public void togglePause() {
     if (currentState == GameState.RUNNING || currentState == GameState.PAUSED) {
       currentState = (currentState == GameState.RUNNING) ? GameState.PAUSED : GameState.RUNNING;
     }
   }
 
+  /** Sets the current game state and logs the change. */
   public void setGameState(GameState newState) {
     this.currentState = newState;
     System.out.println("Game state changed to: " + newState);
   }
 
+  /** Returns the current game state. */
   public GameState getCurrentState() {
     return currentState;
   }
