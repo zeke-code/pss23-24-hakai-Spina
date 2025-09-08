@@ -39,4 +39,12 @@ public interface Effect {
    * @return The duration in seconds, or a value <= 0 for instant or permanent effects.
    */
   double getDuration();
+
+  /**
+   * Returns the visual category of the effect. This tells the renderer whether to display it as a
+   * positive power-up or a negative malus.
+   *
+   * @return The EffectCategory for this effect.
+   */
+  EffectCategory getCategory();
 }

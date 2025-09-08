@@ -31,10 +31,13 @@ public class PowerUpRenderer implements EntityRenderer {
     gc.save();
 
     // Check the effect type to decide how to render it
-    if ("PADDLE_SLOW".equals(drop.effectType)) {
-      renderMalus(gc, pos, render);
-    } else {
-      renderPowerUp(gc, pos, render);
+    switch (drop.category) {
+      case POSITIVE:
+        renderPowerUp(gc, pos, render);
+        break;
+      case NEGATIVE:
+        renderMalus(gc, pos, render);
+        break;
     }
 
     gc.restore();

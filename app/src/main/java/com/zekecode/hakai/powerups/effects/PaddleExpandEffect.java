@@ -4,6 +4,7 @@ import com.zekecode.hakai.components.graphics.RenderComponent;
 import com.zekecode.hakai.components.paddle.PaddleStateComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.powerups.Effect;
+import com.zekecode.hakai.powerups.EffectCategory;
 import com.zekecode.hakai.powerups.EffectId;
 
 /**
@@ -65,5 +66,10 @@ public class PaddleExpandEffect implements Effect {
   @Override
   public double getDuration() {
     return DURATION;
+  }
+
+  @Override
+  public EffectCategory getCategory() {
+    return EffectCategory.POSITIVE;
   }
 }

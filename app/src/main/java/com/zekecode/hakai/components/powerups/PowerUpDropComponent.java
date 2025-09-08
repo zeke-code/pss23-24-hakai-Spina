@@ -1,6 +1,7 @@
 package com.zekecode.hakai.components.powerups;
 
 import com.zekecode.hakai.core.Component;
+import com.zekecode.hakai.powerups.EffectCategory;
 import com.zekecode.hakai.powerups.PowerUpType;
 
 /**
@@ -9,8 +10,10 @@ import com.zekecode.hakai.powerups.PowerUpType;
  */
 public class PowerUpDropComponent implements Component {
   public final PowerUpType effectType;
+  public final EffectCategory category;
 
-  public PowerUpDropComponent(PowerUpType effectType) {
+  public PowerUpDropComponent(PowerUpType effectType, EffectCategory category) {
     this.effectType = effectType;
+    this.category = category;
   }
 }

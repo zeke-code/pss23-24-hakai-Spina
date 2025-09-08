@@ -12,6 +12,7 @@ import com.zekecode.hakai.core.World;
 import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.events.brick.BrickDestroyedEvent;
 import com.zekecode.hakai.events.powerup.PowerUpCollectedEvent;
+import com.zekecode.hakai.powerups.EffectCategory;
 import com.zekecode.hakai.powerups.EffectRegistry;
 import com.zekecode.hakai.powerups.PowerUpType;
 import java.util.List;
@@ -44,15 +45,22 @@ public class PowerUpSystem extends GameSystem {
               PowerUpData data = powerUpComp.powerUpData;
               switch (data.trigger) {
                 case INSTANT:
-                  // For instant effects, the effect is applied using the brick as context.
                   applyEffect(data.type, event.brickEntity);
                   break;
                 case ON_COLLECT:
-                  // Spawn a collectible drop at the brick's location.
-                  event
-                      .brickEntity
-                      .getComponent(PositionComponent.class)
-                      .ifPresent(pos -> entityFactory.createPowerUpDrop(pos.x, pos.y, data.type));
+                  effectRegistry
+                      .getEffect(data.type)
+                      .ifPresent(
+                          effect -> {
+                            EffectCategory category = effect.getCategory();
+                            event
+                                .brickEntity
+                                .getComponent(PositionComponent.class)
+                                .ifPresent(
+                                    pos ->
+                                        entityFactory.createPowerUpDrop(
+                                            pos.x, pos.y, data.type, category));
+                          });
                   break;
               }
             });

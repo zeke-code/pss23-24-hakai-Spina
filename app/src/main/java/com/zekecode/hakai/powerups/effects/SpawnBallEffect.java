@@ -4,6 +4,7 @@ import com.zekecode.hakai.components.physics.PositionComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.entities.EntityFactory;
 import com.zekecode.hakai.powerups.Effect;
+import com.zekecode.hakai.powerups.EffectCategory;
 import com.zekecode.hakai.powerups.EffectId;
 
 /**
@@ -57,5 +58,10 @@ public class SpawnBallEffect implements Effect {
   public double getDuration() {
     // 0 indicates an instant, non-timed effect.
     return 0;
+  }
+
+  @Override
+  public EffectCategory getCategory() {
+    return EffectCategory.POSITIVE;
   }
 }

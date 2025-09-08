@@ -4,6 +4,7 @@ import com.zekecode.hakai.components.paddle.PaddleSlowComponent;
 import com.zekecode.hakai.components.physics.MovableComponent;
 import com.zekecode.hakai.core.Entity;
 import com.zekecode.hakai.powerups.Effect;
+import com.zekecode.hakai.powerups.EffectCategory;
 import com.zekecode.hakai.powerups.EffectId;
 
 /**
@@ -57,5 +58,10 @@ public class PaddleSlowEffect implements Effect {
   @Override
   public double getDuration() {
     return DURATION;
+  }
+
+  @Override
+  public EffectCategory getCategory() {
+    return EffectCategory.NEGATIVE;
   }
 }
