@@ -1,32 +1,69 @@
 name: Build and Release JAR
 
-# This workflow runs when a new tag is pushed that starts with 'v'
-# For example: v1.0, v1.0.1, v1.2.3-beta
 on:
   push:
     tags:
       - 'v*'
 
 jobs:
-  build-jar:
-    runs-on: ubuntu-latest
-    container:
-      # Using Temurin Alpine docker container to match local development JDK
-      image: eclipse-temurin:17.0.16_8-jdk-alpine
+  build-and-release:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            asset_name: Hakai-Linux.jar
+          - os: windows-latest
+            asset_name: Hakai-Windows.jar
+          - os: macos-latest
+            asset_name: Hakai-Mac.jar
+
+    # Use the OS from the matrix for each job run
+    runs-on: ${{ matrix.os }}
+
+    permissions:
+      contents: write
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout repository
         uses: actions/checkout@v5
 
-      # Ensure the Gradle wrapper has execute permissions
+      - name: Set up JDK 17
+        uses: actions/setup-java@v5
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: gradle
+
       - name: Grant execute permission for gradlew
+        if: runner.os != 'Windows'
         run: chmod +x ./gradlew
 
-      - name: Build fat JAR with ShadowJar
-        run: ./gradlew shadowJar
+      - name: Build with Gradle
+        # Use ./gradlew on Linux/Mac and gradlew.bat on Windows
+        run: |
+          if [ "$RUNNER_OS" == "Windows" ]; then
+            ./gradlew.bat shadowJar
+          else
+            ./gradlew shadowJar
+          fi
+        shell: bash
 
-      - name: Upload JAR artifact
-        uses: actions/upload-artifact@v4
+      - name: Rename JAR for release
+        run: |
+          # Find the built JAR file. The name will vary slightly.
+          # We move it to a consistent name defined in our matrix.
+          find app/build/libs -name "*-all.jar" -exec mv {} ${{ matrix.asset_name }} \;
+        shell: bash
+
+      - name: Upload Release Asset
+        uses: softprops/action-gh-release@v2
         with:
-          name: Hakai-JAR
-          path: app/build/libs/*-all.jar
+          # The body of the release notes.
+          body: |
+            Automated release of Hakai version ${{ github.ref_name }}.
+            Download the appropriate JAR for your operating system below.
+          # Attach the newly renamed JAR file.
+          files: ${{ matrix.asset_name }}
+          # Prerelease check is the same
+          prerelease: ${{ contains(github.ref, '-BETA') || contains(github.ref, '-alpha') || contains(github.ref, '-rc') }}
