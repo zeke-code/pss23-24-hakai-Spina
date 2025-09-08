@@ -1,10 +1,10 @@
-package com.zekecode.hakai;
+package com.zekecode.hakai.ui;
 
-import com.zekecode.hakai.ui.SceneManager;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
-public class App extends Application {
+/** The main entry point for launching the JavaFX application. */
+public class ViewLauncher extends Application {
 
   @Override
   public void start(Stage primaryStage) throws Exception {

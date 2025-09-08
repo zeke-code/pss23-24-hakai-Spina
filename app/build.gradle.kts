@@ -45,7 +45,7 @@ java {
 
 application {
     // Define the main class for the application.
-    mainClass = "com.zekecode.hakai.App"
+    mainClass = "com.zekecode.hakai.Main"
 }
 
 spotless {
