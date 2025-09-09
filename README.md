@@ -1,5 +1,24 @@
 # Relazione su Hakai - PSS23-24
 
+## Indice
+
+- [Analisi](#analisi)
+  - [Requisiti funzionali](#requisiti-funzionali)
+  - [Requisiti non funzionali](#requisiti-non-funzionali)
+  - [Analisi e modello del dominio](#analisi-e-modello-del-dominio)
+- [Design](#design)
+  - [Architettura](#architettura)
+  - [Design Dettagliato](#design-dettagliato)
+    - [Gestione del Rendering Flessibile e Estensibile](#1-gestione-del-rendering-flessibile-e-estensibile)
+    - [Scoperta e Registrazione Automatica degli Effetti dei Power-Up](#2-scoperta-e-registrazione-automatica-degli-effetti-dei-power-up)
+    - [Creazione Semplificata delle Entità di Gioco](#3-creazione-semplificata-delle-entità-di-gioco)
+- [Sviluppo](#sviluppo)
+  - [Testing Automatizzato](#testing-automatizzato)
+  - [Note di sviluppo](#note-di-sviluppo)
+- [Commenti finali](#commenti-finali)
+  - [Difficoltà incontrate e commenti per i docenti](#difficoltà-incontrate-e-commenti-per-i-docenti)
+- [Guida utente](#guida-utente)
+
 # Analisi
 
 Lo scopo di questo progetto è di ricreare una versione modernizzata del famosissimo arcade [Breakout](https://en.wikipedia.org/wiki/Breakout_(video_game)). 
