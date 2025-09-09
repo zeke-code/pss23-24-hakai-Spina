@@ -204,50 +204,38 @@ colpisce un mattone. Si noti come CollisionSystem non conosca l'esistenza di Bri
 avviene esclusivamente tramite la pubblicazione di eventi sull' EventBus, che agisce da mediatore.
 
 ```mermaid
-classDiagram
-    direction LR
+sequenceDiagram
+    participant GameLoop
+    participant World
+    participant CollisionSystem
+    participant EventBus
+    participant BallBrickCollisionSystem
+    participant BrickSystem
+    participant ScoreSystem
 
-    class World {
-        <<Coordinator>>
-        +update()
-    }
-
-    class GameSystem {
-        <<Logic Processor>>
-        +update(List~Entity~)
-    }
-
-    class Entity {
-        <<Data Aggregate>>
-    }
-
-    class Component {
-        <<Data Container>>
-    }
-
-    class GameLoop {
-        <<Engine>>
-    }
-
-    class EventBus {
-        <<Mediator>>
-    }
+    GameLoop->>World: update(deltaTime)
+    World->>CollisionSystem: update(...)
+    activate CollisionSystem
+    note right of CollisionSystem: Rileva una collisione tra Palla e Mattone
+    CollisionSystem->>EventBus: post(CollisionEvent)
+    deactivate CollisionSystem
     
-    note for World "Orchestra l'aggiornamento\ndi tutti i sistemi."
-    note for GameSystem "Contiene la logica.\nOpera sui dati dei Componenti."
-    note for Entity "Un contenitore di Componenti."
-    note for EventBus "Permette la comunicazione\ndisaccoppiata tra i Sistemi."
-
-    GameLoop "1" -> "1" World : "invoca"
-    World "1" o-- "0..*" GameSystem : "esegue"
-    World "1" o-- "0..*" Entity : "gestisce"
-
-    GameSystem ..> Entity : "elabora"
-    GameSystem ..> Component : "accede a"
+    EventBus-->>BallBrickCollisionSystem: onCollision(event)
+    activate BallBrickCollisionSystem
+    note right of BallBrickCollisionSystem: Risolve la fisica (rimbalzo)
+    BallBrickCollisionSystem->>EventBus: post(BrickHitEvent)
+    deactivate BallBrickCollisionSystem
     
-    Entity "1" *-- "0..*" Component : "è composto da"
-
-    GameSystem <..> EventBus : "comunica tramite"
+    EventBus-->>BrickSystem: onBrickHit(event)
+    activate BrickSystem
+    note right of BrickSystem: Decrementa HP del mattone.<br/>Se HP <= 0...
+    BrickSystem->>Bus: post(new BrickDestroyedEvent(mattone))
+    deactivate BrickSystem
+    
+    EventBus-->>ScoreSystem: onBrickDestroyed(event)
+    activate ScoreSystem
+    note right of ScoreSystem: Aumenta il punteggio
+    deactivate ScoreSystem
 ```
 
 ## Design Dettagliato
