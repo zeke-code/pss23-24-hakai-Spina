@@ -13,7 +13,7 @@ plugins {
     * To create the fat jar, run on a terminal "./gradlew shadowJar
     * The fat jar will be found in build/libs/projectname-all.jar
     */
-    id("com.gradleup.shadow") version "9.1.0"
+    id("com.gradleup.shadow") version "9.2.1"
 
 }
 
